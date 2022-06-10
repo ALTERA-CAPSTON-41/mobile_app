@@ -1,6 +1,9 @@
-import 'package:capston_project/pages/main_page.dart';
+import 'package:capston_project/common/const.dart';
+import 'package:capston_project/pages/auth/sign_in.dart';
+import 'package:capston_project/viewModels/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   await dotenv.load(fileName: ".env");
@@ -12,9 +15,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: MainPage(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthViewModel()),
+      ],
+      child: MaterialApp(
+        theme: ThemeData(colorScheme: kColorScheme),
+        debugShowCheckedModeBanner: false,
+        home: const SignInPage(),
+      ),
     );
   }
 }

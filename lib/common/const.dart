@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+Color kGreen1 = const Color(0xff1AC09C);
+Color kGreen2 = const Color(0xffA6EBD9);
+Color kGreey = const Color(0xffC5C5C5);
+Color kBlack = Colors.black;
+Color kwhite = Colors.white;
+
 const double margin = 30.0;
 
 final TextStyle kHeading5 = GoogleFonts.openSans(
@@ -34,4 +40,23 @@ final TextStyle kBodyText2 = GoogleFonts.openSans(
   fontWeight: FontWeight.w400,
   letterSpacing: 0.25,
   color: Colors.white,
+);
+
+Map<String, String>? headers = {
+  'Content-Type': 'application/json',
+  'Accept': 'application/json',
+};
+
+final kColorScheme = ColorScheme(
+  primary: kGreen1,
+  secondary: const Color(0xffC0B2FF),
+  surface: kwhite,
+  background: kwhite,
+  error: Colors.red,
+  onPrimary: kwhite,
+  onSecondary: Colors.white,
+  onSurface: Colors.black87,
+  onBackground: Colors.white,
+  onError: Colors.white,
+  brightness: Brightness.light,
 );

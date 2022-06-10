@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
@@ -165,4 +166,12 @@ extension StringExtension on String {
   String capitalize() {
     return "${this[0].toUpperCase()}${substring(1).toLowerCase()}";
   }
+}
+
+void logging(String data) {
+  log('$data ✅✅✅✅✅');
+}
+
+void loggingErr(String data) {
+  log('$data ❌❌❌❌❌');
 }
