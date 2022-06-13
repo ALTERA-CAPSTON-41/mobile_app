@@ -23,13 +23,6 @@ class _SignInPageState extends State<SignInPage> {
     passwordCtrl = TextEditingController(text: 'thestrongestpassword');
   }
 
-  Future login(
-    AuthViewModel auth,
-    String email,
-    String password,
-    BuildContext context,
-  ) async {}
-
   @override
   void initState() {
     _init();
