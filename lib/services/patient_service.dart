@@ -73,6 +73,34 @@ class PatientService {
       return Future.error("Fail to create patient!");
     }
   }
+
+  Future<void> updatePatient(PatientModel patient) async {
+    if (kDebugMode) {
+      logging("RUNNING UPDATE PATIENT SERVICES");
+    }
+
+    try {
+      Response? ress;
+      final String authToken = await Prefs().getAuthToken();
+
+      headers?.addAll({'Authorization': 'Bearer $authToken'});
+      ress = await put(
+        Uri.parse("${API().serviceURL}/patients/${patient.id}"),
+        headers: headers,
+        body: json.encode(patient.toJson()),
+      );
+
+      if (ress.statusCode != 204) {
+        return Future.error("Fail to update patient!");
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        loggingErr("updatePatient() :: $e");
+      }
+
+      return Future.error("Fail to update patient!");
+    }
+  }
 }
 
 PatientService patientService = PatientService();

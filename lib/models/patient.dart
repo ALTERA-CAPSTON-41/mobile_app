@@ -21,27 +21,6 @@ class PatientModel {
   String? gender;
   String? bloodType;
 
-  PatientModel copyWith({
-    String? id,
-    String? name,
-    String? nik,
-    String? phone,
-    String? address,
-    String? dob,
-    String? gender,
-    String? bloodType,
-  }) =>
-      PatientModel(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        nik: nik ?? this.nik,
-        phone: phone ?? this.phone,
-        address: address ?? this.address,
-        dob: dob ?? this.dob,
-        gender: gender ?? this.gender,
-        bloodType: bloodType ?? this.bloodType,
-      );
-
   factory PatientModel.fromJson(Map<String, dynamic> json) => PatientModel(
         id: json["id"],
         name: json["name"],

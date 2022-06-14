@@ -1,8 +1,10 @@
 import 'package:capston_project/common/const.dart';
 import 'package:capston_project/common/enum_state.dart';
-import 'package:capston_project/pages/patient/add_patient_page.dart';
+import 'package:capston_project/models/patient.dart';
+import 'package:capston_project/pages/patient/form_patient_page.dart';
 import 'package:capston_project/viewModels/patient_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
 class PatientPage extends StatefulWidget {
@@ -24,6 +26,19 @@ class _PatientPageState extends State<PatientPage> {
         Provider.of<PatientViewModel>(context, listen: false).getAllPatient());
   }
 
+  void _onDelete() {}
+
+  void _onUpdate(BuildContext context, PatientModel patient) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FormPatientPage(
+          patient: patient,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +47,7 @@ class _PatientPageState extends State<PatientPage> {
         child: const Icon(Icons.add),
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const AddPatientPage()));
+              MaterialPageRoute(builder: (context) => const FormPatientPage()));
         },
       ),
       appBar: AppBar(
@@ -53,23 +68,48 @@ class _PatientPageState extends State<PatientPage> {
             return ListView.builder(
               itemCount: value.patient?.length ?? 0,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(
-                    value.patient[index].name,
-                    style: kSubtitle.copyWith(
-                      color: kBlack,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                    ),
+                return Slidable(
+                  startActionPane: ActionPane(
+                    motion: const ScrollMotion(),
+                    children: [
+                      SlidableAction(
+                        onPressed: (BuildContext context) {
+                          _onDelete();
+                        },
+                        backgroundColor: const Color(0xFFFE4A49),
+                        foregroundColor: Colors.white,
+                        icon: Icons.delete,
+                        label: 'Delete',
+                      ),
+                      SlidableAction(
+                        onPressed: (BuildContext context) {
+                          _onUpdate(context, value.patient[index]);
+                        },
+                        backgroundColor: kGreen1,
+                        foregroundColor: Colors.white,
+                        icon: Icons.update,
+                        label: 'Update',
+                      ),
+                    ],
                   ),
-                  subtitle: Text(
-                    value.patient[index].address,
-                    style: kBodyText.copyWith(
-                      color: Colors.grey,
+                  child: ListTile(
+                    title: Text(
+                      value.patient[index].name,
+                      style: kSubtitle.copyWith(
+                        color: kBlack,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
                     ),
+                    subtitle: Text(
+                      value.patient[index].address,
+                      style: kBodyText.copyWith(
+                        color: Colors.grey,
+                      ),
+                    ),
+                    trailing: const Icon(Icons.keyboard_arrow_right),
+                    onTap: () {},
                   ),
-                  trailing: const Icon(Icons.keyboard_arrow_right),
-                  onTap: () {},
                 );
               },
             );

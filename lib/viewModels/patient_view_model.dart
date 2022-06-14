@@ -31,4 +31,18 @@ class PatientViewModel extends BaseViewModels {
       errMsgChange = e.toString();
     }
   }
+
+  Future<void> updatePatient(PatientModel patient) async {
+    try {
+      setState(RequestState.LOADING);
+
+      await patientService.updatePatient(patient);
+      await getAllPatient();
+
+      setState(RequestState.LOADED);
+    } catch (e) {
+      setState(RequestState.ERROR);
+      errMsgChange = e.toString();
+    }
+  }
 }
