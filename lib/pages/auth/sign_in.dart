@@ -19,8 +19,16 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController? passwordCtrl;
 
   _init() {
-    emailCtrl = TextEditingController(text: 'doctor.capstone@gmail.com');
+    emailCtrl = TextEditingController(text: 'admin.capstone@example.com');
     passwordCtrl = TextEditingController(text: 'thestrongestpassword');
+
+    // DOCTOR
+    // doctor.capstone@gmail.com
+    // thestrongestpassword
+
+    // ADMIN
+    // admin.capstone@example.com
+    // thestrongestpassword
   }
 
   @override
@@ -97,15 +105,16 @@ class _SignInPageState extends State<SignInPage> {
                   key: key,
                   child: Column(
                     children: [
-                      TextfieldCustom(
-                        lable: "Email",
-                        icon: Icons.email,
+                      TextFieldWidget(
+                        label: "Email",
+                        onChange: (value) {},
                         controller: emailCtrl ?? TextEditingController(),
                       ),
-                      TextfieldCustom(
-                        lable: "Password",
+                      const SizedBox(height: 20),
+                      TextFieldWidget(
+                        label: "Password",
+                        onChange: (value) {},
                         obscureText: true,
-                        icon: Icons.lock,
                         controller: passwordCtrl ?? TextEditingController(),
                       ),
                     ],

@@ -49,7 +49,7 @@ Map<String, String>? headers = {
 
 final kColorScheme = ColorScheme(
   primary: kGreen1,
-  secondary: const Color(0xffC0B2FF),
+  secondary: kGreen2,
   surface: kwhite,
   background: kwhite,
   error: Colors.red,

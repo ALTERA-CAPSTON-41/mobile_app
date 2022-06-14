@@ -1,48 +1,56 @@
 import 'package:capston_project/common/const.dart';
 import 'package:flutter/material.dart';
 
-class TextfieldCustom extends StatelessWidget {
-  const TextfieldCustom({
+class TextFieldWidget extends StatefulWidget {
+  const TextFieldWidget({
     Key? key,
-    required this.lable,
     required this.controller,
-    required this.icon,
+    required this.onChange,
+    required this.label,
     this.obscureText = false,
+    this.maxLength = 1,
+    this.minLength = 1,
   }) : super(key: key);
 
-  final String lable;
   final TextEditingController controller;
-  final IconData icon;
+  final Function(String) onChange;
+  final String label;
   final bool obscureText;
+  final int maxLength;
+  final int minLength;
 
+  @override
+  _TextFieldWidgetState createState() => _TextFieldWidgetState();
+}
+
+class _TextFieldWidgetState extends State<TextFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller,
-      obscureText: obscureText,
+      controller: widget.controller,
+      minLines: widget.minLength,
+      maxLines: widget.maxLength,
       decoration: InputDecoration(
-        labelText: lable,
-        suffix: Icon(
-          icon,
-          color: Colors.grey,
-        ),
-        labelStyle: const TextStyle(
-          color: Colors.grey,
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
+        hintText: widget.label,
+        label: Text(widget.label),
+        border: const OutlineInputBorder(),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: kGreen1,
+            width: 2,
+          ),
         ),
       ),
-      style: kBodyText.copyWith(
-        color: Colors.grey,
-        fontSize: 16,
-        fontWeight: FontWeight.w500,
-      ),
+      onChanged: widget.onChange,
       validator: (value) {
-        if (value!.isEmpty) {
-          return '$lable Tidak boleh kosong';
+        if (value?.isEmpty ?? true) {
+          return "${widget.label} tidak boleh kosong";
+        } else {
+          return null;
         }
-        return null;
       },
+      obscureText: widget.obscureText,
+      textInputAction: TextInputAction.search,
     );
   }
 }
