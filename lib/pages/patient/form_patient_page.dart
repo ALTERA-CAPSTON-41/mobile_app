@@ -208,7 +208,7 @@ class _FormPatientPageState extends State<FormPatientPage> {
                   const SizedBox(height: 12),
                   DropdowndSearchWidget(
                     controller: _genderCtrl ?? TextEditingController(),
-                    items: const ["Laki laki", "Perempuan"],
+                    items: const ["MALE", "FEMALE"],
                     label: "Jenis Kelamin",
                     onChanged: (value) {
                       _patient.gender = value;

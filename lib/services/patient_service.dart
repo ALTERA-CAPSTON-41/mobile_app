@@ -101,6 +101,33 @@ class PatientService {
       return Future.error("Fail to update patient!");
     }
   }
+
+  Future<void> deletePatient(String id) async {
+    if (kDebugMode) {
+      logging("RUNNING DELETE PATIENT SERVICES");
+    }
+
+    try {
+      Response? ress;
+      final String authToken = await Prefs().getAuthToken();
+
+      headers?.addAll({'Authorization': 'Bearer $authToken'});
+      ress = await delete(
+        Uri.parse("${API().serviceURL}/patients/$id"),
+        headers: headers,
+      );
+
+      if (ress.statusCode != 204) {
+        return Future.error("Fail to delete patient!");
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        loggingErr("deletePatient() :: $e");
+      }
+
+      return Future.error("Fail to delete patient!");
+    }
+  }
 }
 
 PatientService patientService = PatientService();

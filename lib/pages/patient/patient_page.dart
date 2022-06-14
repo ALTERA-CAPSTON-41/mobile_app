@@ -26,7 +26,9 @@ class _PatientPageState extends State<PatientPage> {
         Provider.of<PatientViewModel>(context, listen: false).getAllPatient());
   }
 
-  void _onDelete() {}
+  void _onDelete(BuildContext context, String id) {
+    Provider.of<PatientViewModel>(context, listen: false).deletePatient(id);
+  }
 
   void _onUpdate(BuildContext context, PatientModel patient) {
     Navigator.push(
@@ -74,7 +76,7 @@ class _PatientPageState extends State<PatientPage> {
                     children: [
                       SlidableAction(
                         onPressed: (BuildContext context) {
-                          _onDelete();
+                          _onDelete(context, value.patient[index].id);
                         },
                         backgroundColor: const Color(0xFFFE4A49),
                         foregroundColor: Colors.white,

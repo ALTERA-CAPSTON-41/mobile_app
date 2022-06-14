@@ -45,4 +45,18 @@ class PatientViewModel extends BaseViewModels {
       errMsgChange = e.toString();
     }
   }
+
+  Future<void> deletePatient(String id) async {
+    try {
+      setState(RequestState.LOADING);
+
+      await patientService.deletePatient(id);
+      await getAllPatient();
+
+      setState(RequestState.LOADED);
+    } catch (e) {
+      setState(RequestState.ERROR);
+      errMsgChange = e.toString();
+    }
+  }
 }
