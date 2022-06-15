@@ -3,76 +3,50 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
 class DropdownSearchApiWidget extends StatelessWidget {
+  final String label;
   final TextEditingController controller;
-  final List<dynamic> items;
+  final Function? onFind;
+  final dynamic selectedItem;
   final Function(dynamic) onChanged;
-  final String? label;
-  final Function(dynamic)? onSaved;
-  final bool isEnabled;
-  final bool isOptional;
-  final EdgeInsets? margin;
-  final EdgeInsets? contentPadding;
-  final TextStyle? labelStyle;
 
   const DropdownSearchApiWidget({
     Key? key,
     required this.controller,
-    required this.items,
     required this.onChanged,
-    this.label,
-    this.onSaved,
-    this.isEnabled = true,
-    this.isOptional = false,
-    this.margin,
-    this.contentPadding,
-    this.labelStyle,
+    required this.label,
+    required this.selectedItem,
+    this.onFind,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return DropdownSearch<dynamic>(
-      onSaved: onSaved,
-      enabled: isEnabled,
-      items: items,
-      selectedItem: controller.text == "" ? null : controller.text,
+      showSearchBox: true,
+      showSelectedItems: true,
+      compareFn: (i, s) => i?.isEqual(s) ?? false,
+      selectedItem: selectedItem,
       popupTitle: Container(
-        margin: margin ?? const EdgeInsets.all(15),
+        margin: const EdgeInsets.all(15),
         child: Center(
           child: Text(
-            label ?? "",
+            label,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
         ),
       ),
-      compareFn: (a, b) => a == b,
-      maxHeight: 300,
-      validator: isEnabled
-          ? (value) {
-              if (!isOptional) {
-                if (value == null || value == '') {
-                  return "$label tidak boleh kosong";
-                } else {
-                  return null;
-                }
-              }
-              return null;
-            }
-          : null,
-      onChanged: onChanged,
+      validator: (value) {
+        if (value == null || value == '') {
+          return "$label tidak boleh kosong";
+        }
+        return null;
+      },
       dropdownSearchDecoration: InputDecoration(
         labelText: label,
-        labelStyle: labelStyle,
-        contentPadding:
-            contentPadding ?? const EdgeInsets.fromLTRB(10, 10, 0, 0),
+        contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
         border: const OutlineInputBorder(),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: kGreen1,
-            width: 2,
-          ),
-        ),
-        isDense: true,
       ),
+      onFind: (dynamic filter) => onFind!(),
+      onChanged: onChanged,
     );
   }
 }
