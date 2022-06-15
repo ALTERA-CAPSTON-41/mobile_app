@@ -27,7 +27,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Hallo, ${Provider.of<AuthViewModel>(context).userModel?.name ?? "Guest"}",
+          "Hallo, ${Provider.of<AuthViewModel>(context).userModel?.role ?? "Guest"}",
         ),
       ),
       body: SafeArea(

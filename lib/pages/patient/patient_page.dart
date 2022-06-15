@@ -2,6 +2,7 @@ import 'package:capston_project/common/const.dart';
 import 'package:capston_project/common/enum_state.dart';
 import 'package:capston_project/models/patient.dart';
 import 'package:capston_project/pages/patient/form_patient_page.dart';
+import 'package:capston_project/pages/queue/add_queue.dart';
 import 'package:capston_project/viewModels/patient_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -111,7 +112,15 @@ class _PatientPageState extends State<PatientPage> {
                       ),
                     ),
                     trailing: const Icon(Icons.keyboard_arrow_right),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddQueuePage(
+                              patient: patient ?? PatientModel(),
+                            ),
+                          ));
+                    },
                   ),
                 );
               },

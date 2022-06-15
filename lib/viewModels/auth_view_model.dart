@@ -7,7 +7,7 @@ import 'package:capston_project/viewModels/base_view_model.dart';
 
 class AuthViewModel extends BaseViewModels {
   UserModel? _userModel;
-  get userModel => _userModel;
+  UserModel? get userModel => _userModel;
 
   Future<void> signIn(String email, String password) async {
     logging("RUNNING SIGNIN VIEW MODEL");
