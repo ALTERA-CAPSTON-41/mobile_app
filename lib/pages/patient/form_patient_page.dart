@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:capston_project/common/const.dart';
 import 'package:capston_project/common/enum_state.dart';
 import 'package:capston_project/extensions/ext.dart';
+import 'package:capston_project/helper/helper.dart';
 import 'package:capston_project/models/patient.dart';
 import 'package:capston_project/viewModels/patient_view_model.dart';
 import 'package:capston_project/widgets/date_picker.dart';
@@ -59,7 +60,8 @@ class _FormPatientPageState extends State<FormPatientPage> {
       _phoneCtrl?.text = widget.patient?.phone ?? "";
       _addressCtrl?.text = widget.patient?.address ?? "";
       _dobCtrl?.text = widget.patient?.dob ?? "";
-      _genderCtrl?.text = widget.patient?.gender ?? "";
+      _genderCtrl?.text =
+          Helper.getKeyOrValueMapGender(widget.patient?.gender, false);
       _blodTypeCtrl?.text = widget.patient?.bloodType ?? "";
     }
   }
@@ -208,10 +210,10 @@ class _FormPatientPageState extends State<FormPatientPage> {
                   const SizedBox(height: 12),
                   DropdowndSearchWidget(
                     controller: _genderCtrl ?? TextEditingController(),
-                    items: const ["MALE", "FEMALE"],
+                    items: const ["PEREMPUAN", "LAKI-LAKI"],
                     label: "Jenis Kelamin",
                     onChanged: (value) {
-                      _patient.gender = value;
+                      _patient.gender = Helper.getKeyOrValueMapGender(value);
                     },
                   ),
                   const SizedBox(height: 12),

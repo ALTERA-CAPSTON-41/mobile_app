@@ -3,6 +3,7 @@ import 'package:capston_project/extensions/ext.dart';
 import 'package:capston_project/pages/components/card_menu_item.dart';
 import 'package:capston_project/pages/doctors/doctor_page.dart';
 import 'package:capston_project/pages/patient/patient_page.dart';
+import 'package:capston_project/pages/queue/queue_page.dart';
 import 'package:capston_project/viewModels/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -71,6 +72,25 @@ class _MainPageState extends State<MainPage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => const PatientPage(),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 30),
+                Text(
+                  "Antrian",
+                  style: kHeading6.copyWith(
+                    color: kBlack,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                CradMenuItem(
+                  iconData: FontAwesomeIcons.clipboardList,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const QueuePage(),
                       ),
                     );
                   },
