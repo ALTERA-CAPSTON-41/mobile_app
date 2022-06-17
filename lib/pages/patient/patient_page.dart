@@ -87,7 +87,7 @@ class _PatientPageState extends State<PatientPage> {
                       ),
                       SlidableAction(
                         onPressed: (BuildContext context) {
-                          _onUpdate(context, patient ?? PatientModel());
+                          _onUpdate(context, patient);
                         },
                         backgroundColor: kGreen1,
                         foregroundColor: Colors.white,
@@ -117,7 +117,7 @@ class _PatientPageState extends State<PatientPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => AddQueuePage(
-                              patient: patient ?? PatientModel(),
+                              patient: patient,
                             ),
                           ));
                     },

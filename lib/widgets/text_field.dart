@@ -20,6 +20,7 @@ class TextFieldWidget extends StatefulWidget {
   final int minLength;
 
   @override
+  // ignore: library_private_types_in_public_api
   _TextFieldWidgetState createState() => _TextFieldWidgetState();
 }
 

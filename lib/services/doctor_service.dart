@@ -7,7 +7,6 @@ import 'package:capston_project/services/api.dart';
 import 'package:capston_project/services/pref_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
-import 'package:logger/logger.dart';
 
 class DoctorService {
   Future<List<DoctorModel>> getAllDoctor() async {

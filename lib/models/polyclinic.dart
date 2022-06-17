@@ -1,3 +1,4 @@
+// ignore_for_file: unnecessary_this
 class Polyclinic {
   Polyclinic({
     this.id,

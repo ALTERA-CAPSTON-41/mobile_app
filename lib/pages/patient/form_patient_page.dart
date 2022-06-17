@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:capston_project/common/const.dart';
 import 'package:capston_project/common/enum_state.dart';
 import 'package:capston_project/extensions/ext.dart';

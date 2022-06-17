@@ -5,7 +5,6 @@ import 'package:capston_project/models/admin.dart';
 import 'package:capston_project/viewModels/admin_view_model.dart';
 import 'package:capston_project/widgets/text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
 class AdminFormPage extends StatefulWidget {
