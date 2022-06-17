@@ -182,13 +182,19 @@ class _FormDoctorPageState extends State<FormDoctorPage> {
                     },
                     label: "Email",
                   ),
-                  const SizedBox(height: 12),
-                  TextFieldWidget(
-                    controller: _passwordCtrl ?? TextEditingController(),
-                    onChange: (value) {
-                      _doctor.password = value;
-                    },
-                    label: "Password",
+                  Visibility(
+                    visible: widget.doctor == null,
+                    child: const SizedBox(height: 12),
+                  ),
+                  Visibility(
+                    visible: widget.doctor == null,
+                    child: TextFieldWidget(
+                      controller: _passwordCtrl ?? TextEditingController(),
+                      onChange: (value) {
+                        _doctor.password = value;
+                      },
+                      label: "Password",
+                    ),
                   ),
                   const SizedBox(height: 12),
                   TextFieldWidget(

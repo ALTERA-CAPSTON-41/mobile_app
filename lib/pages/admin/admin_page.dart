@@ -1,44 +1,44 @@
 import 'package:capston_project/common/const.dart';
 import 'package:capston_project/common/enum_state.dart';
-import 'package:capston_project/models/doctor.dart';
-import 'package:capston_project/pages/doctors/form_doctor_page.dart';
-import 'package:capston_project/viewModels/doctor_view_model.dart';
+import 'package:capston_project/models/admin.dart';
+import 'package:capston_project/pages/admin/admin_form_page.dart';
+import 'package:capston_project/viewModels/admin_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 
-class DoctorPage extends StatefulWidget {
-  const DoctorPage({Key? key}) : super(key: key);
+class AdminPage extends StatefulWidget {
+  const AdminPage({Key? key}) : super(key: key);
 
   @override
-  State<DoctorPage> createState() => _DoctorPageState();
+  State<AdminPage> createState() => _AdminPageState();
 }
 
-class _DoctorPageState extends State<DoctorPage> {
+class _AdminPageState extends State<AdminPage> {
+  _init() {
+    Future.microtask(() =>
+        Provider.of<AdminViewModel>(context, listen: false).getAllAdmin());
+  }
+
+  _onDelete(BuildContext context, String id) {
+    Provider.of<AdminViewModel>(context, listen: false).deleteAdmin(id);
+  }
+
+  _onUpdate(BuildContext context, AdminModel admin) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AdminFormPage(
+          admin: admin,
+        ),
+      ),
+    );
+  }
+
   @override
   void initState() {
     _init();
     super.initState();
-  }
-
-  _init() {
-    Future.microtask(() =>
-        Provider.of<DoctorViewModel>(context, listen: false).getAllDoctor());
-  }
-
-  _onDelete(BuildContext context, String id) {
-    Provider.of<DoctorViewModel>(context, listen: false).deleteDoctor(id);
-  }
-
-  _onUpdate(BuildContext context, DoctorModel doctor) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => FormDoctorPage(
-          doctor: doctor,
-        ),
-      ),
-    );
   }
 
   @override
@@ -49,14 +49,14 @@ class _DoctorPageState extends State<DoctorPage> {
         child: const Icon(Icons.add),
         onPressed: () {
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const FormDoctorPage()));
+              MaterialPageRoute(builder: (context) => const AdminFormPage()));
         },
       ),
       appBar: AppBar(
-        title: const Text("Data Dokter"),
+        title: const Text("Data Admin"),
         centerTitle: true,
       ),
-      body: Consumer<DoctorViewModel>(
+      body: Consumer<AdminViewModel>(
         builder: (context, value, _) {
           if (value.state == RequestState.LOADING) {
             return const Center(
@@ -68,16 +68,16 @@ class _DoctorPageState extends State<DoctorPage> {
             );
           } else {
             return ListView.builder(
-              itemCount: value.doctor?.length ?? 0,
+              itemCount: value.adminList?.length ?? 0,
               itemBuilder: (context, index) {
-                final doctor = value.doctor?[index];
+                final admin = value.adminList?[index];
                 return Slidable(
                   startActionPane: ActionPane(
                     motion: const ScrollMotion(),
                     children: [
                       SlidableAction(
                         onPressed: (BuildContext context) {
-                          _onDelete(context, doctor?.id ?? "");
+                          _onDelete(context, admin?.id ?? "");
                         },
                         backgroundColor: const Color(0xFFFE4A49),
                         foregroundColor: Colors.white,
@@ -86,7 +86,7 @@ class _DoctorPageState extends State<DoctorPage> {
                       ),
                       SlidableAction(
                         onPressed: (BuildContext context) {
-                          _onUpdate(context, doctor ?? DoctorModel());
+                          _onUpdate(context, admin ?? AdminModel());
                         },
                         backgroundColor: kGreen1,
                         foregroundColor: Colors.white,
@@ -97,7 +97,7 @@ class _DoctorPageState extends State<DoctorPage> {
                   ),
                   child: ListTile(
                     title: Text(
-                      doctor?.name ?? "",
+                      admin?.name ?? "",
                       style: kSubtitle.copyWith(
                         color: kBlack,
                         fontWeight: FontWeight.bold,
@@ -105,7 +105,7 @@ class _DoctorPageState extends State<DoctorPage> {
                       ),
                     ),
                     subtitle: Text(
-                      doctor?.address ?? "",
+                      admin?.nip ?? "",
                       style: kBodyText.copyWith(
                         color: Colors.grey,
                       ),
