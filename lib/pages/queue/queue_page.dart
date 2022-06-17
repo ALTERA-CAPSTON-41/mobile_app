@@ -4,7 +4,6 @@ import 'package:capston_project/extensions/ext.dart';
 import 'package:capston_project/viewModels/queue_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
 class QueuePage extends StatefulWidget {
@@ -49,83 +48,80 @@ class _QueuePageState extends State<QueuePage> {
               itemCount: value.queueModel?.length ?? 0,
               itemBuilder: (context, index) {
                 final queue = value.queueModel![index];
-                return Container(
-                  child: Card(
-                    elevation: 0,
-                    color: kGreen2,
-                    child: Padding(
-                      padding: paddingOnly(
-                          left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Nama Pasien",
-                                style: kSubtitle.copyWith(
-                                  color: kBlack,
-                                ),
+                return Card(
+                  elevation: 0,
+                  color: kGreen2,
+                  child: Padding(
+                    padding: paddingOnly(
+                        left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Nama Pasien",
+                              style: kSubtitle.copyWith(
+                                color: kBlack,
                               ),
-                              Text(
-                                queue.patient?.name ?? "",
-                                style: kSubtitle.copyWith(
-                                  color: kBlack,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            ),
+                            Text(
+                              queue.patient?.name ?? "",
+                              style: kSubtitle.copyWith(
+                                color: kBlack,
+                                fontWeight: FontWeight.bold,
                               ),
-                              const SizedBox(height: 10.0),
-                              Text(
-                                "Poli",
-                                style: kSubtitle.copyWith(
-                                  color: kBlack,
-                                ),
+                            ),
+                            const SizedBox(height: 10.0),
+                            Text(
+                              "Poli",
+                              style: kSubtitle.copyWith(
+                                color: kBlack,
                               ),
-                              Text(
-                                queue.polyclinic?.name ?? "",
-                                style: kSubtitle.copyWith(
-                                  color: kBlack,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            ),
+                            Text(
+                              queue.polyclinic?.name ?? "",
+                              style: kSubtitle.copyWith(
+                                color: kBlack,
+                                fontWeight: FontWeight.bold,
                               ),
-                            ],
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                "No Antrian",
-                                style: kSubtitle.copyWith(
-                                  color: kBlack,
-                                ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "No Antrian",
+                              style: kSubtitle.copyWith(
+                                color: kBlack,
                               ),
-                              Text(
-                                queue.dailyQueueNumber.toString(),
-                                style: kSubtitle.copyWith(
-                                  color: kBlack,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            ),
+                            Text(
+                              queue.dailyQueueNumber.toString(),
+                              style: kSubtitle.copyWith(
+                                color: kBlack,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
                               ),
-                              const SizedBox(height: 10.0),
-                            ],
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                onPressed: () async {
-                                  queue.serviceDoneAt =
-                                      DateTime.now().toString();
-                                  await value.doneQueue(queue);
-                                },
-                                icon: const Icon(FontAwesomeIcons.stopwatch),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
+                            ),
+                            const SizedBox(height: 10.0),
+                          ],
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              onPressed: () async {
+                                queue.serviceDoneAt = DateTime.now().toString();
+                                await value.doneQueue(queue);
+                              },
+                              icon: const Icon(FontAwesomeIcons.stopwatch),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
                   ),
                 );
