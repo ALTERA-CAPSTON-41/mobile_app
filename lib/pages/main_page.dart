@@ -1,5 +1,6 @@
 import 'package:capston_project/common/const.dart';
 import 'package:capston_project/extensions/ext.dart';
+import 'package:capston_project/pages/admin/admin_page.dart';
 import 'package:capston_project/pages/components/card_menu_item.dart';
 import 'package:capston_project/pages/doctors/doctor_page.dart';
 import 'package:capston_project/pages/patient/patient_page.dart';
@@ -106,6 +107,25 @@ class _MainPageState extends State<MainPage> {
                 CradMenuItem(
                   iconData: FontAwesomeIcons.bookMedical,
                   onTap: () {},
+                ),
+                const SizedBox(height: 30),
+                Text(
+                  "Admin",
+                  style: kHeading6.copyWith(
+                    color: kBlack,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                CradMenuItem(
+                  iconData: FontAwesomeIcons.personCircleCheck,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const AdminPage(),
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(height: 30),
                 Text(
