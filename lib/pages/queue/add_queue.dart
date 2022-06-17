@@ -2,6 +2,7 @@ import 'package:capston_project/common/const.dart';
 import 'package:capston_project/common/enum_state.dart';
 import 'package:capston_project/extensions/ext.dart';
 import 'package:capston_project/helper/date_helper.dart';
+import 'package:capston_project/helper/helper.dart';
 import 'package:capston_project/models/patient.dart';
 import 'package:capston_project/models/polyclinic.dart';
 import 'package:capston_project/models/queue.dart';
@@ -9,7 +10,6 @@ import 'package:capston_project/viewModels/polyclinic_view_model.dart';
 import 'package:capston_project/viewModels/queue_view_model.dart';
 import 'package:capston_project/widgets/drop_down_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
 class AddQueuePage extends StatefulWidget {
@@ -32,7 +32,7 @@ class _AddQueuePageState extends State<AddQueuePage> {
   _init() {
     _polyCtrl = TextEditingController();
     _statusCtrl = TextEditingController();
-    _queue.patientId = widget.patient.id;
+    _queue.patient = widget.patient;
   }
 
   Future<List<Polyclinic>> _getPolyclinic() async {
@@ -90,7 +90,7 @@ class _AddQueuePageState extends State<AddQueuePage> {
                     controller: _polyCtrl ?? TextEditingController(),
                     onChanged: (value) {
                       _selectedPolyclinic = value;
-                      _queue.polyclinicId = value.id;
+                      _queue.polyclinic = value;
                     },
                     onFind: _getPolyclinic,
                     label: "Poliklinik",
@@ -107,10 +107,11 @@ class _AddQueuePageState extends State<AddQueuePage> {
                   const SizedBox(height: 10),
                   DropdowndSearchWidget(
                     controller: _statusCtrl ?? TextEditingController(),
-                    items: const ["OUTPATIENT", "REFERRED"],
+                    items: const ["RAWAT JALAN", "RUJUKAN"],
                     label: "Status Pemeriksaan",
                     onChanged: (value) {
-                      _queue.patientStatus = value;
+                      _queue.patientStatus =
+                          Helper.getKeyOrValueMapStatus(value);
                     },
                   ),
                   const Spacer(),

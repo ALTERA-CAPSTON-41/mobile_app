@@ -1,6 +1,7 @@
 import 'package:capston_project/common/const.dart';
 import 'package:capston_project/common/enum_state.dart';
 import 'package:capston_project/extensions/ext.dart';
+import 'package:capston_project/helper/helper.dart';
 import 'package:capston_project/models/doctor.dart';
 import 'package:capston_project/models/polyclinic.dart';
 import 'package:capston_project/viewModels/doctor_view_model.dart';
@@ -61,7 +62,8 @@ class _FormDoctorPageState extends State<FormDoctorPage> {
       _polyCtrl?.text = widget.doctor?.polyclinic?.name ?? "";
       _addressCtrl?.text = widget.doctor?.address ?? "";
       _dobCtrl?.text = widget.doctor?.dob?.toString() ?? "";
-      _genderCtrl?.text = widget.doctor?.gender ?? "";
+      _genderCtrl?.text =
+          Helper.getKeyOrValueMapGender(widget.doctor?.gender, false);
       _selectedPolyclinic = widget.doctor?.polyclinic;
     }
   }
@@ -233,10 +235,10 @@ class _FormDoctorPageState extends State<FormDoctorPage> {
                   const SizedBox(height: 12),
                   DropdowndSearchWidget(
                     controller: _genderCtrl ?? TextEditingController(),
-                    items: const ["MALE", "FEMALE"],
+                    items: const ["PEREMPUAN", "LAKI-LAKI"],
                     label: "Jenis Kelamin",
                     onChanged: (value) {
-                      _doctor.gender = value;
+                      _doctor.gender = Helper.getKeyOrValueMapGender(value);
                     },
                   ),
                   const SizedBox(height: 12),
