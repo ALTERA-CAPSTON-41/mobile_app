@@ -41,7 +41,7 @@ class DropdownSearchApiWidget extends StatelessWidget {
       },
       dropdownSearchDecoration: InputDecoration(
         labelText: label,
-        contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+        contentPadding: const EdgeInsets.fromLTRB(13, 20, 20, 20),
         border: const OutlineInputBorder(),
       ),
       onFind: (dynamic filter) => onFind!(),
@@ -103,7 +103,7 @@ class DropdowndSearchWidget extends StatelessWidget {
         labelText: label,
         labelStyle: labelStyle,
         contentPadding:
-            contentPadding ?? const EdgeInsets.fromLTRB(20, 20, 20, 20),
+            contentPadding ?? const EdgeInsets.fromLTRB(13, 20, 20, 20),
         border: const OutlineInputBorder(),
         isDense: true,
       ),

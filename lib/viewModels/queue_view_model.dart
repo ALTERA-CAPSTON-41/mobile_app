@@ -22,6 +22,7 @@ class QueueViewModel extends BaseViewModels {
     try {
       setState(RequestState.LOADING);
       await queueServices.createQueue(queue);
+      getAllQueue();
       setState(RequestState.LOADED);
     } catch (e) {
       setState(RequestState.ERROR);

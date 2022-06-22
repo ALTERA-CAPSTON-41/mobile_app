@@ -1,6 +1,7 @@
 import 'package:capston_project/common/const.dart';
 import 'package:capston_project/common/enum_state.dart';
 import 'package:capston_project/extensions/ext.dart';
+import 'package:capston_project/pages/queue/patient_list.dart';
 import 'package:capston_project/viewModels/queue_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -32,6 +33,14 @@ class _QueuePageState extends State<QueuePage> {
       appBar: AppBar(
         title: const Text("Data Antrian"),
         centerTitle: true,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const PatientListPage()));
+        },
+        backgroundColor: kGreen1,
+        child: const Icon(Icons.add),
       ),
       body: Consumer<QueueViewModel>(
         builder: (context, value, _) {

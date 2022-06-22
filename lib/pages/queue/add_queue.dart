@@ -13,15 +13,75 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AddQueuePage extends StatefulWidget {
-  const AddQueuePage({Key? key, required this.patient}) : super(key: key);
+  const AddQueuePage({
+    Key? key,
+    this.isCreateQueue = false,
+    required this.patient,
+  }) : super(key: key);
 
   final PatientModel patient;
+  final bool isCreateQueue;
 
   @override
   State<AddQueuePage> createState() => _AddQueuePageState();
 }
 
 class _AddQueuePageState extends State<AddQueuePage> {
+  @override
+  Widget build(BuildContext context) {
+    final patient = widget.patient;
+    return Scaffold(
+      backgroundColor: kGreen1,
+      appBar: AppBar(
+        title: const Text("Buat Antrian"),
+        elevation: 0,
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: paddingOnly(top: 20.0),
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: kwhite,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          child: Padding(
+            padding: paddingOnly(left: 20.0, right: 20.0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  PatientData(patient: patient),
+                  Visibility(
+                    visible: widget.isCreateQueue,
+                    child: CreateQueue(patient: patient),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CreateQueue extends StatefulWidget {
+  const CreateQueue({
+    Key? key,
+    required this.patient,
+  }) : super(key: key);
+
+  final PatientModel patient;
+
+  @override
+  State<CreateQueue> createState() => _CreateQueueState();
+}
+
+class _CreateQueueState extends State<CreateQueue> {
   final _formKey = GlobalKey<FormState>();
   final QueueModel _queue = QueueModel();
 
@@ -50,138 +110,111 @@ class _AddQueuePageState extends State<AddQueuePage> {
 
   @override
   Widget build(BuildContext context) {
-    final patient = widget.patient;
-    return Scaffold(
-      backgroundColor: kGreen1,
-      appBar: AppBar(
-        title: const Text("Buat Antrian"),
-        elevation: 0,
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: paddingOnly(top: 20.0),
-        child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: kwhite,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
+    return Form(
+      key: _formKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 12),
+          Text(
+            "Pilih Poliklinik",
+            style: kSubtitle.copyWith(
+              color: kBlack,
+              fontWeight: FontWeight.bold,
             ),
           ),
-          child: Padding(
-            padding: paddingOnly(left: 20.0, right: 20.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  PatientData(patient: patient),
-                  const SizedBox(height: 12),
-                  Text(
-                    "Pilih Poliklinik",
-                    style: kSubtitle.copyWith(
-                      color: kBlack,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  DropdownSearchApiWidget(
-                    controller: _polyCtrl ?? TextEditingController(),
-                    onChanged: (value) {
-                      _selectedPolyclinic = value;
-                      _queue.polyclinic = value;
-                    },
-                    onFind: _getPolyclinic,
-                    label: "Poliklinik",
-                    selectedItem: _selectedPolyclinic,
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    "Pilih Status Pemeriksaan",
-                    style: kSubtitle.copyWith(
-                      color: kBlack,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  DropdowndSearchWidget(
-                    controller: _statusCtrl ?? TextEditingController(),
-                    items: const ["RAWAT JALAN", "RUJUKAN"],
-                    label: "Status Pemeriksaan",
-                    onChanged: (value) {
-                      _queue.patientStatus =
-                          Helper.getKeyOrValueMapStatus(value);
-                    },
-                  ),
-                  const Spacer(),
-                  Consumer<QueueViewModel>(
-                    builder: (context, value, _) {
-                      if (value.state == RequestState.LOADING) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
+          const SizedBox(height: 10),
+          DropdownSearchApiWidget(
+            controller: _polyCtrl ?? TextEditingController(),
+            onChanged: (value) {
+              _selectedPolyclinic = value;
+              _queue.polyclinic = value;
+            },
+            onFind: _getPolyclinic,
+            label: "Poliklinik",
+            selectedItem: _selectedPolyclinic,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            "Pilih Status Pemeriksaan",
+            style: kSubtitle.copyWith(
+              color: kBlack,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 10),
+          DropdowndSearchWidget(
+            controller: _statusCtrl ?? TextEditingController(),
+            items: const ["RAWAT JALAN", "RUJUKAN"],
+            label: "Status Pemeriksaan",
+            onChanged: (value) {
+              _queue.patientStatus = Helper.getKeyOrValueMapStatus(value);
+            },
+          ),
+          const SizedBox(height: 20),
+          Consumer<QueueViewModel>(
+            builder: (context, value, _) {
+              if (value.state == RequestState.LOADING) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
 
-                      return SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            FocusScope.of(context).unfocus();
-                            if (_formKey.currentState!.validate()) {
-                              _queue.dailyQueueDate =
-                                  DateHelper.changeFormatIdToDateTimeFormat(
-                                      date: DateTime.now());
-                              _formKey.currentState!.save();
+              return SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    FocusScope.of(context).unfocus();
+                    if (_formKey.currentState!.validate()) {
+                      _queue.dailyQueueDate =
+                          DateHelper.changeFormatIdToDateTimeFormat(
+                              date: DateTime.now());
+                      _formKey.currentState!.save();
 
-                              await value.createQueue(_queue).then((ress) {
-                                if (value.state == RequestState.LOADED) {
-                                  Navigator.pop(context);
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    content: Text(
-                                      "Successfully created queue!",
-                                      style: kBodyText.copyWith(
-                                        color: kwhite,
-                                      ),
-                                    ),
-                                    backgroundColor: kGreen1,
-                                    duration: const Duration(seconds: 1),
-                                  ));
-                                } else {
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(SnackBar(
-                                    content: Text(
-                                      value.errMsg,
-                                      style: kBodyText.copyWith(
-                                        color: kwhite,
-                                      ),
-                                    ),
-                                    duration: const Duration(seconds: 1),
-                                  ));
-                                }
-                              });
-                            }
-                          },
-                          child: Text(
-                            "Buat Antrian",
-                            style: kBodyText.copyWith(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
+                      await value.createQueue(_queue).then((ress) {
+                        if (value.state == RequestState.LOADED) {
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                              "Successfully created queue!",
+                              style: kBodyText.copyWith(
+                                color: kwhite,
+                              ),
                             ),
-                          ),
-                        ),
-                      );
-                    },
+                            backgroundColor: kGreen1,
+                            duration: const Duration(seconds: 1),
+                          ));
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                              value.errMsg,
+                              style: kBodyText.copyWith(
+                                color: kwhite,
+                              ),
+                            ),
+                            duration: const Duration(seconds: 1),
+                          ));
+                        }
+                      });
+                    }
+                  },
+                  child: Text(
+                    "Buat Antrian",
+                    style: kBodyText.copyWith(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                  const SizedBox(height: 20),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
-        ),
+          const SizedBox(height: 20),
+        ],
       ),
     );
   }
@@ -227,6 +260,21 @@ class PatientData extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         Text(
+          "NIK",
+          style: kSubtitle.copyWith(
+            color: kBlack,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          patient.nik ?? "-",
+          style: kSubtitle.copyWith(
+            color: kGreen1,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(
           "Alamat",
           style: kSubtitle.copyWith(
             color: kBlack,
@@ -250,6 +298,66 @@ class PatientData extends StatelessWidget {
         ),
         Text(
           patient.dob ?? "-",
+          style: kSubtitle.copyWith(
+            color: kGreen1,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          "Alamat",
+          style: kSubtitle.copyWith(
+            color: kBlack,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          patient.address ?? "-",
+          style: kSubtitle.copyWith(
+            color: kGreen1,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          "Golongan Darah",
+          style: kSubtitle.copyWith(
+            color: kBlack,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          patient.bloodType ?? "-",
+          style: kSubtitle.copyWith(
+            color: kGreen1,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          "Jenis Kelamin",
+          style: kSubtitle.copyWith(
+            color: kBlack,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          Helper.getKeyOrValueMapGender(patient.gender, false),
+          style: kSubtitle.copyWith(
+            color: kGreen1,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          "No. Telp",
+          style: kSubtitle.copyWith(
+            color: kBlack,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Text(
+          patient.phone ?? "-",
           style: kSubtitle.copyWith(
             color: kGreen1,
             fontWeight: FontWeight.bold,
