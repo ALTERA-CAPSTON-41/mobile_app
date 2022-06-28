@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -6,6 +8,10 @@ Color kGreen2 = const Color(0xffA6EBD9);
 Color kGreey = const Color(0xffC5C5C5);
 Color kBlack = Colors.black;
 Color kwhite = Colors.white;
+
+String admin = "ADMIN";
+String docotor = "DOCTOR";
+String nurse = "NURSE";
 
 const double margin = 30.0;
 

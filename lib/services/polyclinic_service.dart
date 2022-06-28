@@ -7,6 +7,7 @@ import 'package:capston_project/services/api.dart';
 import 'package:capston_project/services/pref_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
+import 'package:logger/logger.dart';
 
 class PolicyService {
   Future<List<Polyclinic>> getAllPolyclinic() async {
@@ -41,6 +42,102 @@ class PolicyService {
       }
 
       return Future.error("Fail to get all polyclinic!");
+    }
+  }
+
+  Future<int> createPolyclinic(Polyclinic polyclinic) async {
+    if (kDebugMode) {
+      logging("RUNNING CREATE POLYCLINIC SERVICES");
+    }
+
+    try {
+      Response? ress;
+      final String authToken = await Prefs().getAuthToken();
+
+      headers?.addAll({'Authorization': 'Bearer $authToken'});
+      ress = await post(
+        Uri.parse("${API().serviceURL}/polyclinics"),
+        headers: headers,
+        body: json.encode(polyclinic.toJson()),
+      );
+
+      if (ress.statusCode != 201) {
+        return Future.error("Fail to create polyclinic!");
+      }
+
+      if (json.decode(ress.body)["data"] == null) {
+        return Future.error("Data polyclinic is null!");
+      }
+
+      return json.decode(ress.body)["data"]["id"] as int;
+    } catch (e) {
+      if (kDebugMode) {
+        loggingErr("createPolyclinic() :: $e");
+      }
+
+      return Future.error("Fail to create polyclinic!");
+    }
+  }
+
+  Future<void> updatePolyclinic(Polyclinic polyclinic) async {
+    if (kDebugMode) {
+      logging("RUNNING UPDATE POLYCLINIC SERVICES");
+    }
+
+    try {
+      Response? ress;
+      final String authToken = await Prefs().getAuthToken();
+
+      headers?.addAll({'Authorization': 'Bearer $authToken'});
+      ress = await put(
+        Uri.parse("${API().serviceURL}/polyclinics/${polyclinic.id}"),
+        headers: headers,
+        body: json.encode(polyclinic.toJson()),
+      );
+
+      Logger().d(headers);
+      logging(
+          "URL :: ${API().serviceURL}/polyclinics/${polyclinic.id.toString()}");
+      logging("ID POLY :: ${polyclinic.id}");
+      logging("DATA :: ${ress.statusCode}");
+      logging("BODY :: ${ress.body}");
+
+      if (ress.statusCode != 204) {
+        return Future.error("Fail to update polyclinic!");
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        loggingErr("updatePolyclinic() :: $e");
+      }
+
+      return Future.error("Fail to update polyclinic!");
+    }
+  }
+
+  Future<void> deletePolyclinic(String id) async {
+    if (kDebugMode) {
+      logging("RUNNING DELETE POLYCLINIC SERVICES");
+    }
+
+    try {
+      Response? ress;
+      final String authToken = await Prefs().getAuthToken();
+
+      headers?.addAll({'Authorization': 'Bearer $authToken'});
+      ress = await delete(
+        Uri.parse("${API().serviceURL}/polyclinics/$id"),
+        headers: headers,
+      );
+
+      if (ress.statusCode != 204) {
+        return Future.error("Fail to delete polyclinics!");
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        loggingErr("deletePolyclinic() :: $e");
+      }
+
+      return Future.error("Fail to delete polyclinics!");
     }
   }
 }

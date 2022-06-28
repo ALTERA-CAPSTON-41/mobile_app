@@ -4,6 +4,7 @@ import 'package:capston_project/pages/admin/admin_page.dart';
 import 'package:capston_project/pages/components/card_menu_item.dart';
 import 'package:capston_project/pages/doctors/doctor_page.dart';
 import 'package:capston_project/pages/patient/patient_page.dart';
+import 'package:capston_project/pages/polyclinic/polyclinic_page.dart';
 import 'package:capston_project/pages/queue/queue_page.dart';
 import 'package:capston_project/viewModels/auth_view_model.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    final role = Provider.of<AuthViewModel>(context).userModel?.role;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -39,106 +41,90 @@ class _MainPageState extends State<MainPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 30),
-                Text(
-                  "Dokter",
-                  style: kHeading6.copyWith(
-                    color: kBlack,
+                Visibility(
+                  visible: role == admin,
+                  child: CradMenuItem(
+                    title: "Dokter",
+                    iconData: FontAwesomeIcons.houseMedical,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const DoctorPage(),
+                        ),
+                      );
+                    },
                   ),
                 ),
-                const SizedBox(height: 10),
-                CradMenuItem(
-                  iconData: FontAwesomeIcons.houseMedical,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const DoctorPage(),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 30),
-                Text(
-                  "Pasien",
-                  style: kHeading6.copyWith(
-                    color: kBlack,
+                Visibility(
+                  visible: role == admin || role == docotor || role == nurse,
+                  child: CradMenuItem(
+                    title: "Pasien",
+                    iconData: FontAwesomeIcons.person,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PatientPage(),
+                        ),
+                      );
+                    },
                   ),
                 ),
-                const SizedBox(height: 10),
-                CradMenuItem(
-                  iconData: FontAwesomeIcons.person,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const PatientPage(),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 30),
-                Text(
-                  "Antrian",
-                  style: kHeading6.copyWith(
-                    color: kBlack,
+                Visibility(
+                  visible: role == admin || role == docotor || role == nurse,
+                  child: CradMenuItem(
+                    title: "Antrian",
+                    iconData: FontAwesomeIcons.clipboardList,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const QueuePage(),
+                        ),
+                      );
+                    },
                   ),
                 ),
-                const SizedBox(height: 10),
-                CradMenuItem(
-                  iconData: FontAwesomeIcons.clipboardList,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const QueuePage(),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 30),
-                Text(
-                  "Rekam Medis",
-                  style: kHeading6.copyWith(
-                    color: kBlack,
+                Visibility(
+                  visible: role == admin || role == docotor || role == nurse,
+                  child: CradMenuItem(
+                    title: "Poliklinik",
+                    iconData: FontAwesomeIcons.house,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PolyclinicPage(),
+                        ),
+                      );
+                    },
                   ),
                 ),
-                const SizedBox(height: 10),
-                CradMenuItem(
-                  iconData: FontAwesomeIcons.bookMedical,
-                  onTap: () {},
-                ),
-                const SizedBox(height: 30),
-                Text(
-                  "Admin",
-                  style: kHeading6.copyWith(
-                    color: kBlack,
+                Visibility(
+                  visible: role == admin || role == docotor || role == nurse,
+                  child: CradMenuItem(
+                    title: "Rekam Medis",
+                    iconData: FontAwesomeIcons.bookMedical,
+                    onTap: () {},
                   ),
                 ),
-                const SizedBox(height: 10),
-                CradMenuItem(
-                  iconData: FontAwesomeIcons.personCircleCheck,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const AdminPage(),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 30),
-                Text(
-                  "Bantuan",
-                  style: kHeading6.copyWith(
-                    color: kBlack,
+                Visibility(
+                  visible: role == admin,
+                  child: CradMenuItem(
+                    title: "Admin",
+                    iconData: FontAwesomeIcons.personCircleCheck,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AdminPage(),
+                        ),
+                      );
+                    },
                   ),
                 ),
-                const SizedBox(height: 10),
-                CradMenuItem(
-                  iconData: FontAwesomeIcons.question,
-                  onTap: () {},
-                ),
+                const SizedBox(height: 30),
               ],
             ),
           ),

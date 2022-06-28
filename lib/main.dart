@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PolyclinicViewModel()),
         ChangeNotifierProvider(create: (_) => QueueViewModel()),
         ChangeNotifierProvider(create: (_) => AdminViewModel()),
+        ChangeNotifierProvider(create: (_) => PolyclinicViewModel()),
       ],
       child: MaterialApp(
         theme: ThemeData(colorScheme: kColorScheme),
