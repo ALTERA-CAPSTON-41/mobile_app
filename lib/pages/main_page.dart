@@ -87,7 +87,7 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ),
                 Visibility(
-                  visible: role == admin || role == docotor || role == nurse,
+                  visible: role == admin,
                   child: CradMenuItem(
                     title: "Poliklinik",
                     iconData: FontAwesomeIcons.house,

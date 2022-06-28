@@ -114,12 +114,13 @@ class _PatientPageState extends State<PatientPage> {
                     trailing: const Icon(Icons.keyboard_arrow_right),
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AddQueuePage(
-                              patient: patient,
-                            ),
-                          ));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AddQueuePage(
+                            patient: patient,
+                          ),
+                        ),
+                      );
                     },
                   ),
                 );

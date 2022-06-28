@@ -33,7 +33,9 @@ class _AddQueuePageState extends State<AddQueuePage> {
     return Scaffold(
       backgroundColor: kGreen1,
       appBar: AppBar(
-        title: const Text("Buat Antrian"),
+        title: widget.isCreateQueue
+            ? const Text("Buat Antrian")
+            : const Text("Detail Pasien"),
         elevation: 0,
         centerTitle: true,
       ),
@@ -41,6 +43,7 @@ class _AddQueuePageState extends State<AddQueuePage> {
         padding: paddingOnly(top: 20.0),
         child: Container(
           width: double.infinity,
+          height: MediaQuery.of(context).size.height / 1,
           decoration: BoxDecoration(
             color: kwhite,
             borderRadius: const BorderRadius.only(
