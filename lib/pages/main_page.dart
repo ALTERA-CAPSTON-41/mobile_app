@@ -3,6 +3,7 @@ import 'package:capston_project/extensions/ext.dart';
 import 'package:capston_project/pages/admin/admin_page.dart';
 import 'package:capston_project/pages/components/card_menu_item.dart';
 import 'package:capston_project/pages/doctors/doctor_page.dart';
+import 'package:capston_project/pages/medical_record/medical_record_page.dart';
 import 'package:capston_project/pages/patient/patient_page.dart';
 import 'package:capston_project/pages/polyclinic/polyclinic_page.dart';
 import 'package:capston_project/pages/queue/queue_page.dart';
@@ -31,7 +32,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Hallo, ${Provider.of<AuthViewModel>(context).userModel?.role ?? "Guest"}",
+          "Hallo, ${Provider.of<AuthViewModel>(context).userModel?.id ?? "Guest"}",
         ),
       ),
       body: SafeArea(
@@ -102,11 +103,18 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ),
                 Visibility(
-                  visible: role == admin || role == docotor || role == nurse,
+                  visible: role == docotor || role == nurse,
                   child: CradMenuItem(
                     title: "Rekam Medis",
                     iconData: FontAwesomeIcons.bookMedical,
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MedicalRecordPage(),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 Visibility(

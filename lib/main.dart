@@ -3,6 +3,7 @@ import 'package:capston_project/pages/auth/sign_in.dart';
 import 'package:capston_project/viewModels/admin_view_model.dart';
 import 'package:capston_project/viewModels/auth_view_model.dart';
 import 'package:capston_project/viewModels/doctor_view_model.dart';
+import 'package:capston_project/viewModels/medical_rcord_view_model.dart';
 import 'package:capston_project/viewModels/patient_view_model.dart';
 import 'package:capston_project/viewModels/polyclinic_view_model.dart';
 import 'package:capston_project/viewModels/queue_view_model.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => QueueViewModel()),
         ChangeNotifierProvider(create: (_) => AdminViewModel()),
         ChangeNotifierProvider(create: (_) => PolyclinicViewModel()),
+        ChangeNotifierProvider(create: (_) => MedicalRecordViewModel()),
       ],
       child: MaterialApp(
         theme: ThemeData(colorScheme: kColorScheme),

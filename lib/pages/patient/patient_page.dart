@@ -3,6 +3,7 @@ import 'package:capston_project/common/enum_state.dart';
 import 'package:capston_project/models/patient.dart';
 import 'package:capston_project/pages/patient/form_patient_page.dart';
 import 'package:capston_project/pages/queue/add_queue.dart';
+import 'package:capston_project/viewModels/auth_view_model.dart';
 import 'package:capston_project/viewModels/patient_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -44,14 +45,20 @@ class _PatientPageState extends State<PatientPage> {
 
   @override
   Widget build(BuildContext context) {
+    final role = Provider.of<AuthViewModel>(context).userModel?.role;
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: kGreen1,
-        child: const Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => const FormPatientPage()));
-        },
+      floatingActionButton: Visibility(
+        visible: !(role == docotor || role == nurse),
+        child: FloatingActionButton(
+          backgroundColor: kGreen1,
+          child: const Icon(Icons.add),
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const FormPatientPage()));
+          },
+        ),
       ),
       appBar: AppBar(
         title: const Text("Data Pasien"),
@@ -76,23 +83,29 @@ class _PatientPageState extends State<PatientPage> {
                   startActionPane: ActionPane(
                     motion: const ScrollMotion(),
                     children: [
-                      SlidableAction(
-                        onPressed: (BuildContext context) {
-                          _onDelete(context, patient.id ?? "");
-                        },
-                        backgroundColor: const Color(0xFFFE4A49),
-                        foregroundColor: Colors.white,
-                        icon: Icons.delete,
-                        label: 'Delete',
+                      Visibility(
+                        visible: !(role == docotor || role == nurse),
+                        child: SlidableAction(
+                          onPressed: (BuildContext context) {
+                            _onDelete(context, patient.id ?? "");
+                          },
+                          backgroundColor: const Color(0xFFFE4A49),
+                          foregroundColor: Colors.white,
+                          icon: Icons.delete,
+                          label: 'Delete',
+                        ),
                       ),
-                      SlidableAction(
-                        onPressed: (BuildContext context) {
-                          _onUpdate(context, patient);
-                        },
-                        backgroundColor: kGreen1,
-                        foregroundColor: Colors.white,
-                        icon: Icons.update,
-                        label: 'Update',
+                      Visibility(
+                        visible: !(role == docotor || role == nurse),
+                        child: SlidableAction(
+                          onPressed: (BuildContext context) {
+                            _onUpdate(context, patient);
+                          },
+                          backgroundColor: kGreen1,
+                          foregroundColor: Colors.white,
+                          icon: Icons.update,
+                          label: 'Update',
+                        ),
                       ),
                     ],
                   ),

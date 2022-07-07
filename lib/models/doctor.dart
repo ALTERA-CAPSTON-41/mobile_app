@@ -25,17 +25,25 @@ class DoctorModel {
   String? dob;
   String? gender;
 
-  factory DoctorModel.fromJson(Map<String, dynamic> json) => DoctorModel(
+  factory DoctorModel.fromJsonByNIK(Map<String, dynamic> json) => DoctorModel(
         id: json["id"],
-        email: json["email"],
-        password: json["password"],
         name: json["name"],
         nip: json["nip"],
         sip: json["sip"],
-        polyclinic: Polyclinic.fromJson(json["polyclinic"]),
-        address: json["address"],
-        dob: json["dob"],
         gender: json["gender"],
+      );
+
+  factory DoctorModel.fromJson(Map<String, dynamic> json) => DoctorModel(
+        id: json["id"] ?? null,
+        email: json["email"] ?? null,
+        password: json["password"] ?? null,
+        name: json["name"] ?? null,
+        nip: json["nip"] ?? null,
+        sip: json["sip"] ?? null,
+        polyclinic: Polyclinic.fromJson(json["polyclinic"]) ?? null,
+        address: json["address"] ?? null,
+        dob: json["dob"] ?? null,
+        gender: json["gender"] ?? null,
       );
 
   Map<String, dynamic> toJson() => {

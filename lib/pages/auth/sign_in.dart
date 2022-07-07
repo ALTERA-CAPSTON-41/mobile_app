@@ -19,14 +19,14 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController? passwordCtrl;
 
   _init() {
-    emailCtrl = TextEditingController(text: 'master.doctorcp@gmail.com');
+    emailCtrl = TextEditingController(text: 'master.admincp@example.com');
     passwordCtrl = TextEditingController(text: 'thestrongestpassword');
 
     // Master Admin
     //
     // "email": "master.admincp@example.com",
     // "password": "thestrongestpassword"
-    //
+    //3184029304850001
     //
     // Master Doctor
     //
@@ -66,12 +66,13 @@ class _SignInPageState extends State<SignInPage> {
               children: [
                 Center(
                   child: Container(
-                    width: 100,
-                    height: 100,
+                    width: 184,
+                    height: 184,
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.grey,
                     ),
+                    child: Image.asset("assets/images/logo.png"),
                   ),
                 ),
                 const SizedBox(

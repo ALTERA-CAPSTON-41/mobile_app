@@ -28,13 +28,12 @@ class AuthService {
         }),
       );
 
-      logging("SIGNIN SERVICES :: ${ress.body}");
-      logging("SIGNIN SERVICES :: ${ress.statusCode}");
-
       if (ress.statusCode != 201) {
-        return Future.error("Fail to sign in!");
+        return Future.error(
+          json.decode(ress.body)["data"]["reason"].toString().toUpperCase(),
+        );
       }
-
+      logging(json.decode(ress.body)["data"]["token"]);
       await Prefs().setAuthToken(json.decode(ress.body)["data"]["token"]);
 
       Map<String, dynamic> decodeToken = JwtDecoder.decode(

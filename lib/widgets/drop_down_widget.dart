@@ -24,6 +24,10 @@ class DropdownSearchApiWidget extends StatelessWidget {
       showSelectedItems: true,
       compareFn: (i, s) => i?.isEqual(s) ?? false,
       selectedItem: selectedItem,
+      isFilteredOnline: true,
+      searchFieldProps: TextFieldProps(
+        controller: controller,
+      ),
       popupTitle: Container(
         margin: const EdgeInsets.all(15),
         child: Center(

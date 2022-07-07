@@ -7,6 +7,7 @@ import 'package:capston_project/services/api.dart';
 import 'package:capston_project/services/pref_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart';
+import 'package:logger/logger.dart';
 
 class DoctorService {
   Future<List<DoctorModel>> getAllDoctor() async {
@@ -38,6 +39,41 @@ class DoctorService {
     } catch (e) {
       if (kDebugMode) {
         loggingErr("getAllDoctor() :: $e");
+      }
+
+      return Future.error("Fail to get all doctor!");
+    }
+  }
+
+  Future<DoctorModel> getDoctorByID({required String doctorId}) async {
+    if (kDebugMode) {
+      logging("RUNNING GET ALL DOCTOR BY ID SERVICES");
+    }
+
+    try {
+      Response? ress;
+      final String authToken = await Prefs().getAuthToken();
+
+      headers?.addAll({'Authorization': 'Bearer $authToken'});
+      ress = await get(
+        Uri.parse("${API().serviceURL}/doctors/$doctorId"),
+        headers: headers,
+      );
+
+      Logger().w("DOCTOR ID :: $doctorId");
+      Logger().w(json.decode(ress.body)["data"]);
+
+      if (ress.statusCode != 200) {
+        return Future.error("Fail to get all doctor!");
+      }
+
+      if (json.decode(ress.body)["data"] == null) {
+        return Future.error("Data doctor is null!");
+      }
+      return DoctorModel.fromJson(json.decode(ress.body)["data"]);
+    } catch (e) {
+      if (kDebugMode) {
+        loggingErr("getDoctorByID() :: $e");
       }
 
       return Future.error("Fail to get all doctor!");

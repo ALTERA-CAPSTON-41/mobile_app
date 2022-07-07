@@ -242,7 +242,7 @@ class PatientData extends StatelessWidget {
             "Biodata Pasien",
             style: kHeading5.copyWith(
               fontWeight: FontWeight.bold,
-              color: kGreen1,
+              color: kBlack,
             ),
           ),
         ),
@@ -257,7 +257,7 @@ class PatientData extends StatelessWidget {
         Text(
           patient.name ?? "-",
           style: kSubtitle.copyWith(
-            color: kGreen1,
+            color: kBlack,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -272,7 +272,7 @@ class PatientData extends StatelessWidget {
         Text(
           patient.nik ?? "-",
           style: kSubtitle.copyWith(
-            color: kGreen1,
+            color: kBlack,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -287,7 +287,7 @@ class PatientData extends StatelessWidget {
         Text(
           patient.address ?? "-",
           style: kSubtitle.copyWith(
-            color: kGreen1,
+            color: kBlack,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -302,7 +302,7 @@ class PatientData extends StatelessWidget {
         Text(
           patient.dob ?? "-",
           style: kSubtitle.copyWith(
-            color: kGreen1,
+            color: kBlack,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -317,7 +317,7 @@ class PatientData extends StatelessWidget {
         Text(
           patient.address ?? "-",
           style: kSubtitle.copyWith(
-            color: kGreen1,
+            color: kBlack,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -332,7 +332,7 @@ class PatientData extends StatelessWidget {
         Text(
           patient.bloodType ?? "-",
           style: kSubtitle.copyWith(
-            color: kGreen1,
+            color: kBlack,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -347,7 +347,7 @@ class PatientData extends StatelessWidget {
         Text(
           Helper.getKeyOrValueMapGender(patient.gender, false),
           style: kSubtitle.copyWith(
-            color: kGreen1,
+            color: kBlack,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -362,7 +362,7 @@ class PatientData extends StatelessWidget {
         Text(
           patient.phone ?? "-",
           style: kSubtitle.copyWith(
-            color: kGreen1,
+            color: kBlack,
             fontWeight: FontWeight.bold,
           ),
         ),
