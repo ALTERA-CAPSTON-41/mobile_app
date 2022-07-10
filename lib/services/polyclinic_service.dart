@@ -26,7 +26,8 @@ class PolicyService {
       );
 
       if (ress.statusCode != 200) {
-        return Future.error("Fail to get all polyclinic!");
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
 
       if (json.decode(ress.body)["data"] == null) {
@@ -62,7 +63,8 @@ class PolicyService {
       );
 
       if (ress.statusCode != 201) {
-        return Future.error("Fail to create polyclinic!");
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
 
       if (json.decode(ress.body)["data"] == null) {
@@ -103,7 +105,8 @@ class PolicyService {
       logging("BODY :: ${ress.body}");
 
       if (ress.statusCode != 204) {
-        return Future.error("Fail to update polyclinic!");
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
     } catch (e) {
       if (kDebugMode) {
@@ -130,7 +133,8 @@ class PolicyService {
       );
 
       if (ress.statusCode != 204) {
-        return Future.error("Fail to delete polyclinics!");
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
     } catch (e) {
       if (kDebugMode) {

@@ -6,6 +6,9 @@ import 'package:capston_project/helper/helper.dart';
 import 'package:capston_project/models/patient.dart';
 import 'package:capston_project/models/polyclinic.dart';
 import 'package:capston_project/models/queue.dart';
+import 'package:capston_project/pages/medical_record/medical_record_page.dart';
+import 'package:capston_project/pages/patient/form_patient_page.dart';
+import 'package:capston_project/viewModels/auth_view_model.dart';
 import 'package:capston_project/viewModels/polyclinic_view_model.dart';
 import 'package:capston_project/viewModels/queue_view_model.dart';
 import 'package:capston_project/widgets/drop_down_widget.dart';
@@ -16,11 +19,13 @@ class AddQueuePage extends StatefulWidget {
   const AddQueuePage({
     Key? key,
     this.isCreateQueue = false,
+    this.isShowMedRicord = false,
     required this.patient,
   }) : super(key: key);
 
   final PatientModel patient;
   final bool isCreateQueue;
+  final bool isShowMedRicord;
 
   @override
   State<AddQueuePage> createState() => _AddQueuePageState();
@@ -29,6 +34,7 @@ class AddQueuePage extends StatefulWidget {
 class _AddQueuePageState extends State<AddQueuePage> {
   @override
   Widget build(BuildContext context) {
+    final role = Provider.of<AuthViewModel>(context).userModel?.role;
     final patient = widget.patient;
     return Scaffold(
       backgroundColor: kGreen1,
@@ -57,14 +63,110 @@ class _AddQueuePageState extends State<AddQueuePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  PatientData(patient: patient),
+                  PatientData(
+                      patient: patient, isCreateQueue: widget.isCreateQueue),
                   Visibility(
                     visible: widget.isCreateQueue,
                     child: CreateQueue(patient: patient),
                   ),
+                  // TODO: BTN FOR VIEW REKAM MEDIS - DOCTOR ONLY FOR ADD - ADMIN FOR VIEW
+                  const SizedBox(height: 20),
+                  Visibility(
+                    visible: !(widget.isCreateQueue) && widget.isShowMedRicord,
+                    child: ViewMedicalRecord(widget: widget),
+                  ),
+                  // TODO: BTN FOR EDIT PATIENT
+                  const SizedBox(height: 20),
+                  Visibility(
+                    visible: !(widget.isCreateQueue) &&
+                        widget.isShowMedRicord &&
+                        role == admin,
+                    child: ButtonEditPatient(widget: widget),
+                  ),
                 ],
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ViewMedicalRecord extends StatelessWidget {
+  const ViewMedicalRecord({
+    Key? key,
+    required this.widget,
+  }) : super(key: key);
+
+  final AddQueuePage widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: 50,
+      child: ElevatedButton(
+        onPressed: () async {
+          FocusScope.of(context).unfocus();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MedicalRecordPage(
+                isViewMedicalRec: false,
+                nikPatient: widget.patient.nik ?? "",
+              ),
+            ),
+          );
+        },
+        child: Text(
+          "Rekam Medis",
+          style: kBodyText.copyWith(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ButtonEditPatient extends StatelessWidget {
+  const ButtonEditPatient({
+    Key? key,
+    required this.widget,
+  }) : super(key: key);
+
+  final AddQueuePage widget;
+
+  void _onUpdate(BuildContext context, PatientModel patient) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FormPatientPage(
+          patient: patient,
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: 50,
+      child: ElevatedButton(
+        onPressed: () async {
+          FocusScope.of(context).unfocus();
+          _onUpdate(context, widget.patient);
+        },
+        child: Text(
+          "Edit patient",
+          style: kBodyText.copyWith(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),
@@ -227,9 +329,11 @@ class PatientData extends StatelessWidget {
   const PatientData({
     Key? key,
     required this.patient,
+    this.isCreateQueue = false,
   }) : super(key: key);
 
   final PatientModel patient;
+  final bool isCreateQueue;
 
   @override
   Widget build(BuildContext context) {
@@ -242,7 +346,7 @@ class PatientData extends StatelessWidget {
             "Biodata Pasien",
             style: kHeading5.copyWith(
               fontWeight: FontWeight.bold,
-              color: kBlack,
+              color: kGreen1,
             ),
           ),
         ),
@@ -257,8 +361,8 @@ class PatientData extends StatelessWidget {
         Text(
           patient.name ?? "-",
           style: kSubtitle.copyWith(
-            color: kBlack,
-            fontWeight: FontWeight.bold,
+            color: const Color(0xff737373),
+            fontWeight: FontWeight.w400,
           ),
         ),
         const SizedBox(height: 10),
@@ -272,100 +376,93 @@ class PatientData extends StatelessWidget {
         Text(
           patient.nik ?? "-",
           style: kSubtitle.copyWith(
-            color: kBlack,
-            fontWeight: FontWeight.bold,
+            color: const Color(0xff737373),
+            fontWeight: FontWeight.w400,
           ),
         ),
         const SizedBox(height: 10),
-        Text(
-          "Alamat",
-          style: kSubtitle.copyWith(
-            color: kBlack,
-            fontWeight: FontWeight.bold,
+        Visibility(
+          visible: !isCreateQueue,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Tanggal Lahir",
+                style: kSubtitle.copyWith(
+                  color: kBlack,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                patient.dob ?? "-",
+                style: kSubtitle.copyWith(
+                  color: const Color(0xff737373),
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "Golongan Darah",
+                style: kSubtitle.copyWith(
+                  color: kBlack,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                patient.bloodType ?? "-",
+                style: kSubtitle.copyWith(
+                  color: const Color(0xff737373),
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "Jenis Kelamin",
+                style: kSubtitle.copyWith(
+                  color: kBlack,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                Helper.getKeyOrValueMapGender(patient.gender, false),
+                style: kSubtitle.copyWith(
+                  color: const Color(0xff737373),
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "No. Telp",
+                style: kSubtitle.copyWith(
+                  color: kBlack,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                patient.phone ?? "-",
+                style: kSubtitle.copyWith(
+                  color: const Color(0xff737373),
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "Alamat",
+                style: kSubtitle.copyWith(
+                  color: kBlack,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                patient.address ?? "-",
+                style: kSubtitle.copyWith(
+                  color: const Color(0xff737373),
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
           ),
-        ),
-        Text(
-          patient.address ?? "-",
-          style: kSubtitle.copyWith(
-            color: kBlack,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          "Tanggal Lahir",
-          style: kSubtitle.copyWith(
-            color: kBlack,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          patient.dob ?? "-",
-          style: kSubtitle.copyWith(
-            color: kBlack,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          "Alamat",
-          style: kSubtitle.copyWith(
-            color: kBlack,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          patient.address ?? "-",
-          style: kSubtitle.copyWith(
-            color: kBlack,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          "Golongan Darah",
-          style: kSubtitle.copyWith(
-            color: kBlack,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          patient.bloodType ?? "-",
-          style: kSubtitle.copyWith(
-            color: kBlack,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          "Jenis Kelamin",
-          style: kSubtitle.copyWith(
-            color: kBlack,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          Helper.getKeyOrValueMapGender(patient.gender, false),
-          style: kSubtitle.copyWith(
-            color: kBlack,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          "No. Telp",
-          style: kSubtitle.copyWith(
-            color: kBlack,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          patient.phone ?? "-",
-          style: kSubtitle.copyWith(
-            color: kBlack,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        )
       ],
     );
   }

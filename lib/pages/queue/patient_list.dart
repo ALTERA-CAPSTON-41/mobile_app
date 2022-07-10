@@ -69,6 +69,7 @@ class _PatientListPageState extends State<PatientListPage> {
                         builder: (context) => AddQueuePage(
                           patient: patient,
                           isCreateQueue: true,
+                          isShowMedRicord: false,
                         ),
                       ),
                     );

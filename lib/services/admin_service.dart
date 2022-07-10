@@ -25,7 +25,8 @@ class AdminServices {
       );
 
       if (ress.statusCode != 200) {
-        Future.error("Failed to get all admin");
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
 
       if (json.decode(ress.body)["data"] == null) {
@@ -63,7 +64,8 @@ class AdminServices {
       logging("createAdmin() :: ${ress.statusCode}");
 
       if (ress.statusCode != 201) {
-        Future.error("Failed to create admin");
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
     } catch (e) {
       if (kDebugMode) {
@@ -90,7 +92,8 @@ class AdminServices {
       );
 
       if (ress.statusCode != 204) {
-        Future.error("Failed to update admin");
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
     } catch (e) {
       if (kDebugMode) {
@@ -116,7 +119,8 @@ class AdminServices {
       );
 
       if (ress.statusCode != 204) {
-        Future.error("Failed to delete admin");
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
     } catch (e) {
       if (kDebugMode) {

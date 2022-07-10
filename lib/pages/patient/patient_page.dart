@@ -32,17 +32,6 @@ class _PatientPageState extends State<PatientPage> {
     Provider.of<PatientViewModel>(context, listen: false).deletePatient(id);
   }
 
-  void _onUpdate(BuildContext context, PatientModel patient) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => FormPatientPage(
-          patient: patient,
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final role = Provider.of<AuthViewModel>(context).userModel?.role;
@@ -95,18 +84,6 @@ class _PatientPageState extends State<PatientPage> {
                           label: 'Delete',
                         ),
                       ),
-                      Visibility(
-                        visible: !(role == docotor || role == nurse),
-                        child: SlidableAction(
-                          onPressed: (BuildContext context) {
-                            _onUpdate(context, patient);
-                          },
-                          backgroundColor: kGreen1,
-                          foregroundColor: Colors.white,
-                          icon: Icons.update,
-                          label: 'Update',
-                        ),
-                      ),
                     ],
                   ),
                   child: ListTile(
@@ -131,6 +108,7 @@ class _PatientPageState extends State<PatientPage> {
                         MaterialPageRoute(
                           builder: (context) => AddQueuePage(
                             patient: patient,
+                            isShowMedRicord: true,
                           ),
                         ),
                       );

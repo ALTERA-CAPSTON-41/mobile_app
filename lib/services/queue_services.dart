@@ -26,7 +26,8 @@ class QueueServices {
       );
 
       if (ress.statusCode != 200) {
-        Future.error("Failed to get all queue");
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
 
       if (json.decode(ress.body)["data"] == null) {
@@ -60,14 +61,17 @@ class QueueServices {
       );
 
       Logger().d("POLY ID :: $polyId");
+      Logger().d("POLY CODE :: ${ress.statusCode}");
+      Logger().d("POLY DATA :: ${ress.body}");
       Logger().d(json.decode(ress.body)["data"]);
 
-      if (ress.statusCode != 200) {
-        Future.error("Failed to get all queue by poli id");
+      if (ress.statusCode == 404) {
+        return Future.error("Data queue is null");
       }
 
-      if (json.decode(ress.body)["data"] == null) {
-        return Future.error("Data queue is null");
+      if (ress.statusCode != 200) {
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
 
       return (json.decode(ress.body)["data"] as List)
@@ -99,7 +103,8 @@ class QueueServices {
       logging("STATUS CODE :: ${ress.statusCode}");
       logging("STATUS BODY :: ${ress.body}");
       if (ress.statusCode != 201) {
-        return Future.error("Fail to create queue!");
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
     } catch (e) {
       if (kDebugMode) {
@@ -127,7 +132,8 @@ class QueueServices {
       );
 
       if (ress.statusCode != 204) {
-        return Future.error("Fail to done queue!");
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
     } catch (e) {
       if (kDebugMode) {

@@ -61,7 +61,8 @@ class PatientService {
       );
 
       if (ress.statusCode != 201 || json.decode(ress.body)["data"] == null) {
-        return Future.error("Fail to create patient!");
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
 
       return json.decode(ress.body)["data"]["id"];
@@ -91,7 +92,8 @@ class PatientService {
       );
 
       if (ress.statusCode != 204) {
-        return Future.error("Fail to update patient!");
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
     } catch (e) {
       if (kDebugMode) {

@@ -7,7 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MedicalRecordPage extends StatefulWidget {
-  const MedicalRecordPage({Key? key}) : super(key: key);
+  const MedicalRecordPage({
+    Key? key,
+    this.isViewMedicalRec = true,
+    this.nikPatient = "",
+  }) : super(key: key);
+
+  final bool isViewMedicalRec;
+  final String nikPatient;
 
   @override
   State<MedicalRecordPage> createState() => _MedicalRecordPageState();
@@ -15,8 +22,17 @@ class MedicalRecordPage extends StatefulWidget {
 
 class _MedicalRecordPageState extends State<MedicalRecordPage> {
   TextEditingController? _serachCtrl;
+
   _init() {
     _serachCtrl = TextEditingController();
+    if (!(widget.isViewMedicalRec) && widget.nikPatient != "") {
+      _getMedicalRecordPatient();
+    }
+  }
+
+  _getMedicalRecordPatient() {
+    Provider.of<MedicalRecordViewModel>(context, listen: false)
+        .getMedicalRecByNik(nik: widget.nikPatient);
   }
 
   @override
@@ -38,107 +54,88 @@ class _MedicalRecordPageState extends State<MedicalRecordPage> {
             horizontal: 20,
             vertical: 20,
           ),
-          child: Column(
-            children: [
-              TextFieldWidget(
-                controller: _serachCtrl ?? TextEditingController(),
-                onChange: (value) {},
-                label: "Cari...",
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                width: double.infinity,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () async {
-                    FocusScope.of(context).unfocus();
-                    Provider.of<MedicalRecordViewModel>(context, listen: false)
-                        .getMedicalRecByNik(nik: _serachCtrl?.text ?? "");
-                  },
-                  child: Text(
-                    "Cari",
-                    style: kBodyText.copyWith(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+          child: SizedBox(
+            child: Column(
+              children: [
+                Visibility(
+                  visible: widget.isViewMedicalRec,
+                  child: searchWidget(),
                 ),
-              ),
-              Consumer<MedicalRecordViewModel>(
-                builder: (context, value, _) {
-                  if (value.state == RequestState.LOADING) {
-                    return SizedBox(
-                      height: MediaQuery.of(context).size.height / 1.5,
-                      child: const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  } else if (value.state == RequestState.ERROR) {
-                    return SizedBox(
-                      height: MediaQuery.of(context).size.height / 1.5,
-                      child: Center(
-                        child: Text(value.errMsg),
-                      ),
-                    );
-                  } else {
-                    return SizedBox(
-                      height: MediaQuery.of(context).size.height / 1.5,
-                      child: ListView.builder(
-                        itemCount: value.medicalRec?.length ?? 0,
-                        itemBuilder: (context, index) {
-                          final medRec = value.medicalRec![index];
-                          return Card(
-                            margin: const EdgeInsets.only(top: 20),
-                            child: Padding(
-                              padding: paddingAll(16.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Center(
-                                    child: Text(
-                                      "Data Medical Record Pasien",
-                                      style: kBodyText.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                        color: kBlack,
+                Consumer<MedicalRecordViewModel>(
+                  builder: (context, value, _) {
+                    if (value.state == RequestState.LOADING) {
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height / 1.5,
+                        child: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    } else if (value.state == RequestState.ERROR) {
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height / 1.5,
+                        child: Center(
+                          child: Text(value.errMsg),
+                        ),
+                      );
+                    } else {
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height / 1.5,
+                        child: ListView.builder(
+                          itemCount: value.medicalRec?.length ?? 0,
+                          itemBuilder: (context, index) {
+                            final medRec = value.medicalRec![index];
+                            return Card(
+                              margin: const EdgeInsets.only(top: 20),
+                              child: Padding(
+                                padding: paddingAll(16.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Center(
+                                      child: Text(
+                                        "Data Medical Record Pasien",
+                                        style: kBodyText.copyWith(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                          color: kBlack,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  const Divider(thickness: 2),
-                                  const SizedBox(height: 20),
-                                  dataMedicalRec(
-                                    "Nama Patient",
-                                    medRec.patient?.name ?? "",
-                                  ),
-                                  dataMedicalRec(
-                                    "NIK",
-                                    medRec.patient?.nik ?? "",
-                                  ),
-                                  dataMedicalRec(
-                                    "Poli",
-                                    medRec.polyclinic?.name ?? "",
-                                  ),
-                                  dataMedicalRec(
-                                    "Keluhan",
-                                    medRec.symptoms ?? "",
-                                  ),
-                                  dataMedicalRec(
-                                    "Saran",
-                                    medRec.suggestions ?? "",
-                                  ),
-                                ],
+                                    const SizedBox(height: 10),
+                                    const Divider(thickness: 2),
+                                    const SizedBox(height: 20),
+                                    dataMedicalRec(
+                                      "Nama Patient",
+                                      medRec.patient?.name ?? "",
+                                    ),
+                                    dataMedicalRec(
+                                      "NIK",
+                                      medRec.patient?.nik ?? "",
+                                    ),
+                                    dataMedicalRec(
+                                      "Poli",
+                                      medRec.polyclinic?.name ?? "",
+                                    ),
+                                    dataMedicalRec(
+                                      "Keluhan",
+                                      medRec.symptoms ?? "",
+                                    ),
+                                    dataMedicalRec(
+                                      "Saran",
+                                      medRec.suggestions ?? "",
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  }
-                },
-              ),
-            ],
+                            );
+                          },
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -166,6 +163,38 @@ class _MedicalRecordPageState extends State<MedicalRecordPage> {
           ),
         ),
         const SizedBox(height: 10),
+      ],
+    );
+  }
+
+  Widget searchWidget() {
+    return Column(
+      children: [
+        TextFieldWidget(
+          controller: _serachCtrl ?? TextEditingController(),
+          onChange: (value) {},
+          label: "Cari...",
+        ),
+        const SizedBox(height: 10),
+        SizedBox(
+          width: double.infinity,
+          height: 50,
+          child: ElevatedButton(
+            onPressed: () async {
+              FocusScope.of(context).unfocus();
+              Provider.of<MedicalRecordViewModel>(context, listen: false)
+                  .getMedicalRecByNik(nik: _serachCtrl?.text ?? "");
+            },
+            child: Text(
+              "Cari",
+              style: kBodyText.copyWith(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }

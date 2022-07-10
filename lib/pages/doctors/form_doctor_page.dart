@@ -190,6 +190,7 @@ class _FormDoctorPageState extends State<FormDoctorPage> {
                     visible: widget.doctor == null,
                     child: TextFieldWidget(
                       controller: _passwordCtrl ?? TextEditingController(),
+                      obscureText: true,
                       onChange: (value) {
                         _doctor.password = value;
                       },

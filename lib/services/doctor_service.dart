@@ -26,7 +26,8 @@ class DoctorService {
       );
 
       if (ress.statusCode != 200) {
-        return Future.error("Fail to get all doctor!");
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
 
       if (json.decode(ress.body)["data"] == null) {
@@ -64,7 +65,8 @@ class DoctorService {
       Logger().w(json.decode(ress.body)["data"]);
 
       if (ress.statusCode != 200) {
-        return Future.error("Fail to get all doctor!");
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
 
       if (json.decode(ress.body)["data"] == null) {
@@ -100,7 +102,8 @@ class DoctorService {
       logging("${API().serviceURL}/doctors");
 
       if (ress.statusCode != 201) {
-        return Future.error("Fail to create doctor!");
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
 
       if (json.decode(ress.body)["data"] == null) {
@@ -134,7 +137,8 @@ class DoctorService {
       );
 
       if (ress.statusCode != 204) {
-        return Future.error("Fail to update doctor!");
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
     } catch (e) {
       if (kDebugMode) {
@@ -161,7 +165,8 @@ class DoctorService {
       );
 
       if (ress.statusCode != 204) {
-        return Future.error("Fail to delete doctor!");
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
     } catch (e) {
       if (kDebugMode) {

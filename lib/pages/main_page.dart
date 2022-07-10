@@ -32,7 +32,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Hallo, ${Provider.of<AuthViewModel>(context).userModel?.id ?? "Guest"}",
+          "Hallo, ${Provider.of<AuthViewModel>(context).userModel?.name ?? "Guest"}",
         ),
       ),
       body: SafeArea(
@@ -111,7 +111,22 @@ class _MainPageState extends State<MainPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const MedicalRecordPage(),
+                          builder: (context) => MedicalRecordPage(),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Visibility(
+                  visible: role == admin,
+                  child: CradMenuItem(
+                    title: "Perawat",
+                    iconData: FontAwesomeIcons.bookMedical,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AdminPage(),
                         ),
                       );
                     },

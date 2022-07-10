@@ -4,7 +4,6 @@ import 'package:capston_project/models/queue.dart';
 import 'package:capston_project/services/doctor_service.dart';
 import 'package:capston_project/services/queue_services.dart';
 import 'package:capston_project/viewModels/base_view_model.dart';
-import 'package:logger/logger.dart';
 
 class QueueViewModel extends BaseViewModels {
   List<QueueModel>? _queueModel;
@@ -21,7 +20,10 @@ class QueueViewModel extends BaseViewModels {
     }
   }
 
-  Future<void> getAllQueueByPoly({required String doctorId}) async {
+  Future<void> getAllQueueByPoly({
+    required String doctorId,
+    // TODO:: required String role,
+  }) async {
     try {
       setState(RequestState.LOADING);
       DoctorModel doctorPolyId = await doctorService.getDoctorByID(

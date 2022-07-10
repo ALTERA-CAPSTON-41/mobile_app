@@ -60,7 +60,8 @@ class MedicalRecordService {
       );
 
       if (ress.statusCode != 200) {
-        return Future.error("Fail to get medical record by nik!");
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
 
       if (json.decode(ress.body)["data"] == null) {
@@ -103,7 +104,8 @@ class MedicalRecordService {
       logging("URI ::${API().serviceURL}/medical-records");
 
       if (ress.statusCode != 201 || json.decode(ress.body)["data"] == null) {
-        return Future.error("Fail to create medical record!");
+        return Future.error(
+            json.decode(ress.body)["data"]["reason"].toString().toUpperCase());
       }
 
       return json.decode(ress.body)["data"]["id"];
@@ -115,61 +117,6 @@ class MedicalRecordService {
       return Future.error("Fail to create medical record!");
     }
   }
-  //
-  // Future<void> updatePatient(PatientModel patient) async {
-  //   if (kDebugMode) {
-  //     logging("RUNNING UPDATE PATIENT SERVICES");
-  //   }
-  //
-  //   try {
-  //     Response? ress;
-  //     final String authToken = await Prefs().getAuthToken();
-  //
-  //     headers?.addAll({'Authorization': 'Bearer $authToken'});
-  //     ress = await put(
-  //       Uri.parse("${API().serviceURL}/patients/${patient.id}"),
-  //       headers: headers,
-  //       body: json.encode(patient.toJson()),
-  //     );
-  //
-  //     if (ress.statusCode != 204) {
-  //       return Future.error("Fail to update patient!");
-  //     }
-  //   } catch (e) {
-  //     if (kDebugMode) {
-  //       loggingErr("updatePatient() :: $e");
-  //     }
-  //
-  //     return Future.error("Fail to update patient!");
-  //   }
-  // }
-  //
-  // Future<void> deletePatient(String id) async {
-  //   if (kDebugMode) {
-  //     logging("RUNNING DELETE PATIENT SERVICES");
-  //   }
-  //
-  //   try {
-  //     Response? ress;
-  //     final String authToken = await Prefs().getAuthToken();
-  //
-  //     headers?.addAll({'Authorization': 'Bearer $authToken'});
-  //     ress = await delete(
-  //       Uri.parse("${API().serviceURL}/patients/$id"),
-  //       headers: headers,
-  //     );
-  //
-  //     if (ress.statusCode != 204) {
-  //       return Future.error("Fail to delete patient!");
-  //     }
-  //   } catch (e) {
-  //     if (kDebugMode) {
-  //       loggingErr("deletePatient() :: $e");
-  //     }
-  //
-  //     return Future.error("Fail to delete patient!");
-  //   }
-  // }
 }
 
 MedicalRecordService medicalRecordService = MedicalRecordService();

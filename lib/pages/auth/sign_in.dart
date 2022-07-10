@@ -19,23 +19,18 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController? passwordCtrl;
 
   _init() {
-    emailCtrl = TextEditingController(text: 'master.admincp@example.com');
+    emailCtrl = TextEditingController(text: 'master.doctorcp@gmail.com');
     passwordCtrl = TextEditingController(text: 'thestrongestpassword');
 
     // Master Admin
-    //
     // "email": "master.admincp@example.com",
     // "password": "thestrongestpassword"
-    //3184029304850001
-    //
+
     // Master Doctor
-    //
     // "email": "master.doctorcp@gmail.com",
     // "password": "thestrongestpassword",
-    //
-    //
+
     // Master Nurse
-    //
     // "email": "master.nursecp@example.com",
     // "password": "thestrongestpassword"
   }
