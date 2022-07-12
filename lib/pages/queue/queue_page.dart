@@ -30,7 +30,7 @@ class _QueuePageState extends State<QueuePage> {
 
     if (user?.role == docotor || user?.role == nurse) {
       Future.microtask(() => Provider.of<QueueViewModel>(context, listen: false)
-          .getAllQueueByPoly(doctorId: user?.id ?? ""));
+          .getAllQueueByPoly(doctorId: user?.id ?? "", role: user?.role ?? ""));
     } else {
       Future.microtask(() =>
           Provider.of<QueueViewModel>(context, listen: false).getAllQueue());
@@ -78,7 +78,7 @@ class _QueuePageState extends State<QueuePage> {
                     value.queueModel?[index] ?? QueueModel();
                 return InkWell(
                   onTap: () {
-                    if (role != admin) {
+                    if (role != admin && role != nurse) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(

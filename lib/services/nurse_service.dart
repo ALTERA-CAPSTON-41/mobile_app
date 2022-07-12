@@ -49,7 +49,7 @@ class NurseService {
     }
   }
 
-  Future<NurseModel> getNurseByID({required String doctorId}) async {
+  Future<NurseModel> getNurseByID({required String nurseId}) async {
     if (kDebugMode) {
       logging("RUNNING GET ALL NURSE BY ID SERVICES");
     }
@@ -60,7 +60,7 @@ class NurseService {
 
       headers?.addAll({'Authorization': 'Bearer $authToken'});
       ress = await get(
-        Uri.parse("${API().serviceURL}/nurses/$doctorId"),
+        Uri.parse("${API().serviceURL}/nurses/$nurseId"),
         headers: headers,
       );
 

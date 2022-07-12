@@ -54,7 +54,8 @@ class _FormMedicalRecordState extends State<FormMedicalRecord> {
       await value.doneQueue(queue).then((value) {
         Future.microtask(() =>
             Provider.of<QueueViewModel>(context, listen: false)
-                .getAllQueueByPoly(doctorId: user?.id ?? ""));
+                .getAllQueueByPoly(
+                    doctorId: user?.id ?? "", role: user?.role ?? ""));
       });
     }
   }

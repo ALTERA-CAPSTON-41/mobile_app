@@ -40,7 +40,7 @@ class DoctorModel {
         name: json["name"] ?? null,
         nip: json["nip"] ?? null,
         sip: json["sip"] ?? null,
-        polyclinic: Polyclinic.fromJson(json["polyclinic"]) ?? null,
+        polyclinic: Polyclinic.fromJson(json["polyclinic"]),
         address: json["address"] ?? null,
         dob: json["dob"] ?? null,
         gender: json["gender"] ?? null,
