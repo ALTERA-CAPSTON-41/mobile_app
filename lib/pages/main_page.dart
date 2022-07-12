@@ -4,6 +4,7 @@ import 'package:capston_project/pages/admin/admin_page.dart';
 import 'package:capston_project/pages/components/card_menu_item.dart';
 import 'package:capston_project/pages/doctors/doctor_page.dart';
 import 'package:capston_project/pages/medical_record/medical_record_page.dart';
+import 'package:capston_project/pages/nurse/nurse_page.dart';
 import 'package:capston_project/pages/patient/patient_page.dart';
 import 'package:capston_project/pages/polyclinic/polyclinic_page.dart';
 import 'package:capston_project/pages/queue/queue_page.dart';
@@ -111,7 +112,7 @@ class _MainPageState extends State<MainPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => MedicalRecordPage(),
+                          builder: (context) => const MedicalRecordPage(),
                         ),
                       );
                     },
@@ -126,7 +127,7 @@ class _MainPageState extends State<MainPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const AdminPage(),
+                          builder: (context) => const NursePage(),
                         ),
                       );
                     },

@@ -31,8 +31,10 @@ class _MedicalRecordPageState extends State<MedicalRecordPage> {
   }
 
   _getMedicalRecordPatient() {
-    Provider.of<MedicalRecordViewModel>(context, listen: false)
-        .getMedicalRecByNik(nik: widget.nikPatient);
+    Future.delayed(Duration.zero, () {
+      Provider.of<MedicalRecordViewModel>(context, listen: false)
+          .getMedicalRecByNik(nik: widget.nikPatient);
+    });
   }
 
   @override

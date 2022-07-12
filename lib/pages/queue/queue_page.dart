@@ -8,7 +8,6 @@ import 'package:capston_project/pages/queue/patient_list.dart';
 import 'package:capston_project/viewModels/auth_view_model.dart';
 import 'package:capston_project/viewModels/queue_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class QueuePage extends StatefulWidget {
@@ -75,7 +74,8 @@ class _QueuePageState extends State<QueuePage> {
                   ? 1
                   : value.queueModel?.length ?? 0,
               itemBuilder: (context, index) {
-                final QueueModel queue = value.queueModel![index];
+                final QueueModel queue =
+                    value.queueModel?[index] ?? QueueModel();
                 return InkWell(
                   onTap: () {
                     if (role != admin) {
