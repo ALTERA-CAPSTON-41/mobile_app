@@ -5,6 +5,7 @@ import 'package:capston_project/models/admin.dart';
 import 'package:capston_project/viewModels/admin_view_model.dart';
 import 'package:capston_project/widgets/text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class AdminFormPage extends StatefulWidget {
@@ -136,6 +137,7 @@ class _AdminFormPageState extends State<AdminFormPage> {
                   onChange: (value) {
                     _admin.email = value;
                   },
+                  isEnabled: widget.admin == null,
                   label: "Email",
                 ),
                 Visibility(
@@ -158,6 +160,9 @@ class _AdminFormPageState extends State<AdminFormPage> {
                   onChange: (value) {
                     _admin.name = value;
                   },
+                  formatters: [
+                    FilteringTextInputFormatter.deny(RegExp('[0-9]')),
+                  ],
                   label: "Nama Admin",
                 ),
                 const SizedBox(height: 12),

@@ -1,5 +1,6 @@
 import 'package:capston_project/common/const.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TextFieldWidget extends StatefulWidget {
   const TextFieldWidget({
@@ -10,6 +11,9 @@ class TextFieldWidget extends StatefulWidget {
     this.obscureText = false,
     this.maxLength = 1,
     this.minLength = 1,
+    this.formatters,
+    this.textInputType,
+    this.isEnabled = true,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -18,6 +22,9 @@ class TextFieldWidget extends StatefulWidget {
   final bool obscureText;
   final int maxLength;
   final int minLength;
+  final List<TextInputFormatter>? formatters;
+  final TextInputType? textInputType;
+  final bool isEnabled;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -31,6 +38,9 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
       controller: widget.controller,
       minLines: widget.minLength,
       maxLines: widget.maxLength,
+      inputFormatters: widget.formatters,
+      keyboardType: widget.textInputType,
+      enabled: widget.isEnabled,
       decoration: InputDecoration(
         hintText: widget.label,
         label: Text(widget.label),

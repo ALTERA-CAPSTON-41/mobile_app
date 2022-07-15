@@ -5,6 +5,7 @@ import 'package:capston_project/models/polyclinic.dart';
 import 'package:capston_project/viewModels/polyclinic_view_model.dart';
 import 'package:capston_project/widgets/text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class FormPolyclinicPage extends StatefulWidget {
@@ -140,6 +141,9 @@ class _FormPolyclinicPageState extends State<FormPolyclinicPage> {
                       _polyclinic.name = value;
                     },
                     label: "Nama Poli",
+                    formatters: [
+                      FilteringTextInputFormatter.deny(RegExp('[0-9]')),
+                    ],
                   ),
                   const SizedBox(height: 12),
                   Consumer<PolyclinicViewModel>(builder: (context, value, _) {

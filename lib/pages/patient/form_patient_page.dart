@@ -8,6 +8,7 @@ import 'package:capston_project/widgets/date_picker.dart';
 import 'package:capston_project/widgets/drop_down_widget.dart';
 import 'package:capston_project/widgets/text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class FormPatientPage extends StatefulWidget {
@@ -161,6 +162,9 @@ class _FormPatientPageState extends State<FormPatientPage> {
                       _patient.name = value;
                     },
                     label: "Nama Pasien",
+                    formatters: [
+                      FilteringTextInputFormatter.deny(RegExp('[0-9]')),
+                    ],
                   ),
                   const SizedBox(height: 12),
                   TextFieldWidget(

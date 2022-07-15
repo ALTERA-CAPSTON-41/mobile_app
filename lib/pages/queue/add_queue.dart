@@ -13,6 +13,7 @@ import 'package:capston_project/viewModels/polyclinic_view_model.dart';
 import 'package:capston_project/viewModels/queue_view_model.dart';
 import 'package:capston_project/widgets/drop_down_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class AddQueuePage extends StatefulWidget {
@@ -373,12 +374,34 @@ class PatientData extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        Text(
-          patient.nik ?? "-",
-          style: kSubtitle.copyWith(
-            color: const Color(0xff737373),
-            fontWeight: FontWeight.w400,
-          ),
+        Row(
+          children: [
+            Text(
+              patient.nik ?? "-",
+              style: kSubtitle.copyWith(
+                color: const Color(0xff737373),
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                Clipboard.setData(ClipboardData(text: patient.nik))
+                    .then((value) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                      "Copy!",
+                      style: kBodyText.copyWith(
+                        color: kwhite,
+                      ),
+                    ),
+                    backgroundColor: kGreen1,
+                    duration: const Duration(seconds: 1),
+                  ));
+                });
+              },
+              icon: const Icon(Icons.copy),
+            )
+          ],
         ),
         const SizedBox(height: 10),
         Visibility(

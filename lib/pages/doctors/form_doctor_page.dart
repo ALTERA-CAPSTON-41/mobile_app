@@ -10,6 +10,7 @@ import 'package:capston_project/widgets/date_picker.dart';
 import 'package:capston_project/widgets/drop_down_widget.dart';
 import 'package:capston_project/widgets/text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class FormDoctorPage extends StatefulWidget {
@@ -180,6 +181,7 @@ class _FormDoctorPageState extends State<FormDoctorPage> {
                     onChange: (value) {
                       _doctor.email = value;
                     },
+                    isEnabled: widget.doctor == null,
                     label: "Email",
                   ),
                   Visibility(
@@ -204,6 +206,9 @@ class _FormDoctorPageState extends State<FormDoctorPage> {
                       _doctor.name = value;
                     },
                     label: "Nama Dokter",
+                    formatters: [
+                      FilteringTextInputFormatter.deny(RegExp('[0-9]')),
+                    ],
                   ),
                   const SizedBox(height: 12),
                   TextFieldWidget(

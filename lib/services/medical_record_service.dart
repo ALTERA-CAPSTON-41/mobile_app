@@ -59,6 +59,9 @@ class MedicalRecordService {
         headers: headers,
       );
 
+      logging("GET MED NIK CODE :: ${ress.statusCode}");
+      logging("GET MED NIK BODY :: ${ress.body}");
+
       if (ress.statusCode != 200) {
         return Future.error(
             json.decode(ress.body)["data"]["reason"].toString().toUpperCase());

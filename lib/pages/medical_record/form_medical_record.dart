@@ -166,14 +166,16 @@ class _FormMedicalRecordState extends State<FormMedicalRecord> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () async {
-                        FocusScope.of(context).unfocus();
-                        await _onCreate(value);
-                        await doneQueue(
-                          widget.queue ?? QueueModel(),
-                          queueViewModel,
-                          role ?? "",
-                        );
-                        Navigator.of(context).pop();
+                        if (_formKey.currentState!.validate()) {
+                          FocusScope.of(context).unfocus();
+                          await _onCreate(value);
+                          await doneQueue(
+                            widget.queue ?? QueueModel(),
+                            queueViewModel,
+                            role ?? "",
+                          );
+                          Navigator.of(context).pop();
+                        }
                       },
                       child: Text(
                         "Tambah",
