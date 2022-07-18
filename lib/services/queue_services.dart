@@ -25,6 +25,10 @@ class QueueServices {
         headers: headers,
       );
 
+      if (ress.statusCode == 404) {
+        return Future.error("Data queue is null");
+      }
+
       if (ress.statusCode != 200) {
         return Future.error(
             json.decode(ress.body)["data"]["reason"].toString().toUpperCase());

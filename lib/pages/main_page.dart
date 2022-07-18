@@ -1,6 +1,7 @@
 import 'package:capston_project/common/const.dart';
 import 'package:capston_project/extensions/ext.dart';
 import 'package:capston_project/pages/admin/admin_page.dart';
+import 'package:capston_project/pages/auth/sign_in.dart';
 import 'package:capston_project/pages/components/card_menu_item.dart';
 import 'package:capston_project/pages/doctors/doctor_page.dart';
 import 'package:capston_project/pages/medical_record/medical_record_page.dart';
@@ -8,6 +9,7 @@ import 'package:capston_project/pages/nurse/nurse_page.dart';
 import 'package:capston_project/pages/patient/patient_page.dart';
 import 'package:capston_project/pages/polyclinic/polyclinic_page.dart';
 import 'package:capston_project/pages/queue/queue_page.dart';
+import 'package:capston_project/services/pref_service.dart';
 import 'package:capston_project/viewModels/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -38,7 +40,13 @@ class _MainPageState extends State<MainPage> {
         centerTitle: false,
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              Prefs().clearAll();
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (ctx) => const SignInPage()),
+                  (route) => false);
+            },
             icon: const Icon(Icons.logout),
           ),
         ],

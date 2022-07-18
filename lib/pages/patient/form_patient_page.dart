@@ -102,6 +102,7 @@ class _FormPatientPageState extends State<FormPatientPage> {
       await value.updatePatient(_patient).then((ress) {
         if (value.state == RequestState.LOADED) {
           Navigator.pop(context);
+          Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(
               "Successfully updated patient!",
