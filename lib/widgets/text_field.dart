@@ -1,4 +1,5 @@
 import 'package:capston_project/common/const.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -14,6 +15,7 @@ class TextFieldWidget extends StatefulWidget {
     this.formatters,
     this.textInputType,
     this.isEnabled = true,
+    this.isEmail = false,
   }) : super(key: key);
 
   final TextEditingController controller;
@@ -25,6 +27,7 @@ class TextFieldWidget extends StatefulWidget {
   final List<TextInputFormatter>? formatters;
   final TextInputType? textInputType;
   final bool isEnabled;
+  final bool isEmail;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -54,6 +57,26 @@ class _TextFieldWidgetState extends State<TextFieldWidget> {
       ),
       onChanged: widget.onChange,
       validator: (value) {
+        if (widget.isEmail) {
+          if (value?.isEmpty ?? true) {
+            return "${widget.label} tidak boleh kosong";
+          }
+
+          if (!EmailValidator.validate(value.toString())) {
+            return "Masukkan Email yang Valid";
+          }
+        }
+
+        if (widget.obscureText) {
+          if (value?.isEmpty ?? true) {
+            return "${widget.label} tidak boleh kosong";
+          }
+
+          if (value!.length < 8) {
+            return "kata sandi harus memiliki setidaknya 8 karakter";
+          }
+        }
+
         if (value?.isEmpty ?? true) {
           return "${widget.label} tidak boleh kosong";
         } else {

@@ -183,6 +183,7 @@ class _FormNursePageState extends State<FormNursePage> {
                       _nurse.email = value;
                     },
                     label: "Email",
+                    isEmail: true,
                     isEnabled: widget.nurse == null,
                   ),
                   Visibility(

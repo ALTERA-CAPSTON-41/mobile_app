@@ -5,7 +5,6 @@ import 'package:capston_project/pages/main_page.dart';
 import 'package:capston_project/viewModels/auth_view_model.dart';
 import 'package:capston_project/widgets/text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class SignInPage extends StatefulWidget {
@@ -20,8 +19,8 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController? passwordCtrl;
 
   _init() {
-    emailCtrl = TextEditingController(text: 'master.doctorcp@gmail.com');
-    passwordCtrl = TextEditingController(text: 'thestrongestpassword');
+    emailCtrl = TextEditingController();
+    passwordCtrl = TextEditingController();
 
     // Master Admin
     // "email": "master.admincp@example.com",
@@ -113,6 +112,7 @@ class _SignInPageState extends State<SignInPage> {
                     children: [
                       TextFieldWidget(
                         label: "Email",
+                        isEmail: true,
                         onChange: (value) {},
                         controller: emailCtrl ?? TextEditingController(),
                       ),

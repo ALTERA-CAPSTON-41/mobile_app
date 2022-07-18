@@ -137,6 +137,7 @@ class _AdminFormPageState extends State<AdminFormPage> {
                   onChange: (value) {
                     _admin.email = value;
                   },
+                  isEmail: true,
                   isEnabled: widget.admin == null,
                   label: "Email",
                 ),

@@ -181,6 +181,7 @@ class _FormDoctorPageState extends State<FormDoctorPage> {
                     onChange: (value) {
                       _doctor.email = value;
                     },
+                    isEmail: true,
                     isEnabled: widget.doctor == null,
                     label: "Email",
                   ),
