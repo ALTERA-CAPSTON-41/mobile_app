@@ -70,13 +70,13 @@ class _AddQueuePageState extends State<AddQueuePage> {
                     visible: widget.isCreateQueue,
                     child: CreateQueue(patient: patient),
                   ),
-                  // TODO: BTN FOR VIEW REKAM MEDIS - DOCTOR ONLY FOR ADD - ADMIN FOR VIEW
+                  // BTN FOR VIEW REKAM MEDIS - DOCTOR ONLY FOR ADD - ADMIN FOR VIEW
                   const SizedBox(height: 20),
                   Visibility(
                     visible: !(widget.isCreateQueue) && widget.isShowMedRicord,
                     child: ViewMedicalRecord(widget: widget),
                   ),
-                  // TODO: BTN FOR EDIT PATIENT
+                  // BTN FOR EDIT PATIENT
                   const SizedBox(height: 20),
                   Visibility(
                     visible: !(widget.isCreateQueue) &&

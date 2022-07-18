@@ -35,6 +35,13 @@ class _MainPageState extends State<MainPage> {
         title: Text(
           "Hallo, ${Provider.of<AuthViewModel>(context).userModel?.name ?? "Guest"}",
         ),
+        centerTitle: false,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.logout),
+          ),
+        ],
       ),
       body: SafeArea(
         child: Padding(

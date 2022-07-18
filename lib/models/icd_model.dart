@@ -30,5 +30,5 @@ class IcdModel {
   }
 
   @override
-  String toString() => name ?? "";
+  String toString() => name;
 }

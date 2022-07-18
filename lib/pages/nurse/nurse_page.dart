@@ -1,10 +1,7 @@
 import 'package:capston_project/common/const.dart';
 import 'package:capston_project/common/enum_state.dart';
-import 'package:capston_project/models/doctor.dart';
 import 'package:capston_project/models/nurse.dart';
-import 'package:capston_project/pages/doctors/form_doctor_page.dart';
 import 'package:capston_project/pages/nurse/form_nurse_page.dart';
-import 'package:capston_project/viewModels/doctor_view_model.dart';
 import 'package:capston_project/viewModels/nurse_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
